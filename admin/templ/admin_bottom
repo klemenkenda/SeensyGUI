@@ -1,0 +1,18 @@
+				<<body_text>>
+				</div> <!--/span -->
+			</div> <!--/row -->
+		
+
+
+      <hr>
+
+      <footer class="text-center">
+        <b>RutkaCMS v.2.00</b> - Copyright &copy; 2004-2014, <a href="mailto:klemen.kenda@gmail.com">Klemen Kenda</a>, Spletne rešitve
+      </footer>
+
+    </div><!--/.fluid-container-->
+		
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+	</body>
+</html>

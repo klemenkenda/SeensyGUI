@@ -1,0 +1,252 @@
+http://www.geopedia.si/Geopedia_en.html#T768_x415227_y98294.5_s15_b5
+2013.06.25 20:01:36 -- SQL: insert into program_activities (id ,pr_title,pr_keywords,pr_demand,pr_activityid,pr_m,pr_mc,pr_gg,pr_pp,pr_rr,pr_g,pr_durationid,pr_placeid,pr_levelid,pr_typeid,pr_aimid,pr_prerequisites,pr_text,pr_image1,pr_image2,pr_image3,pr_filename) values(0 ,'A','','3','1','0','0','0','0','0','0','0','1','1','1','1','','','','','','')
+2013.06.25 20:01:36 --    - Unknown column 'pr_placeid' in 'field list'
+2013.06.25 20:04:57 -- SQL: insert into program_activities (id ,pr_title,pr_keywords,pr_demand,pr_activityid,pr_m,pr_mc,pr_gg,pr_pp,pr_rr,pr_g,pr_durationid,pr_place_id,pr_levelid,pr_typeid,pr_aimid,pr_prerequisites,pr_text,pr_image1,pr_image2,pr_image3,pr_filename) values(0 ,'A','','3','1','0','0','0','0','0','0','0','1','1','1','1','','','','','','')
+2013.06.25 20:04:57 --    - Unknown column 'pr_place_id' in 'field list'
+2013.06.27 12:03:22 -- SQL: insert into program_activities (id ,pr_title,pr_keywords,pr_demand,pr_activityid,pr_m,pr_mc,pr_gg,pr_pp,pr_rr,pr_g,pr_durationid,pr_place_id,pr_levelid,pr_typeid,pr_aimid,pr_prerequisites,pr_text,pr_image1,pr_image2,pr_image3,pr_filename) values(0 ,'jjj','jjj','3','7','0','0','1','1','0','0','0','1','1','1','1','<p>jjj</p>','<p>jjj</p>','','','','')
+2013.06.27 12:03:22 --    - Unknown column 'pr_place_id' in 'field list'
+2013.06.28 12:39:38 -- SQL: insert into  (id ,) values(0 ,'')
+2013.06.28 12:39:38 --    - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(id ,) values(0 ,'')' at line 1
+2013.06.28 12:40:56 -- SQL: insert into  (id ,) values(0 ,'')
+2013.06.28 12:40:56 --    - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(id ,) values(0 ,'')' at line 1
+2013.06.28 12:41:25 -- SQL: insert into program_activities (id ,pr_title,pr_keywords,pr_demand,pr_activityid,pr_m,pr_mc,pr_gg,pr_pp,pr_rr,pr_g,pr_durationid,pr_place_id,pr_levelid,pr_typeid,pr_aimid,pr_prerequisites,pr_text,pr_image1,pr_image2,pr_image3,pr_filename) values(0 ,'test','','3','1','0','0','0','0','0','0','0','1','1','1','1','','','','','','')
+2013.06.28 12:41:25 --    - Unknown column 'pr_place_id' in 'field list'
+2013.10.14 15:00:51 -- SQL: update newsfeedsource SET id=1 ,ns_title='RutkaNET (FB)',ns_url='http://fbrss.com/f/8c8ce4c6987341ecb4650afe7355df05_671SjrAGJWqNLE3Z.xml',ns_type='1',ns_priority='' where id=1
+2013.10.14 15:00:56 -- SQL: update newsfeedsource SET id=1 ,ns_title='RutkaNET (FB)',ns_url='http://fbrss.com/f/8c8ce4c6987341ecb4650afe7355df05_671SjrAGJWqNLE3Z.xml',ns_type='2',ns_priority='1' where id=1
+2013.11.11 18:23:19 -- SQL: insert into variables (id ,va_name,va_value,va_nohtml) values(0 ,'COLUMN','<p>Kolumna</p>','1')
+2013.11.11 18:23:19 --    - Unknown column 'va_nohtml' in 'field list'
+2013.11.11 21:29:02 -- SQL: insert into blog (id ,bl_title,bl_authorid,bl_date,bl_content,bl_keywords,bl_image1,bl_image2,bl_image3) values(0 ,'123','','2013-11-11','','','','','')
+2013.11.11 21:29:02 --    - Unknown column 'bl_keywords' in 'field list'
+2013.11.11 21:39:27 -- SQL: insert into users (id ,us_name,us_surname,us_unitid,us_username,us_password,us_image,va_super) values(0 ,'Klemen','Kenda','','','','','0')
+2013.11.11 21:39:27 --    - Unknown column 'va_super' in 'field list'
+2013.11.11 21:43:49 -- SQL: insert into blog (id ,bl_title,bl_authorid,bl_date,bl_content,bl_keywords,bl_image1,bl_image2,bl_image3) values(0 ,'Je Zvezi potrebna alternativa?','1','2013-11-11','<p>Analiza podatkov o obiskanosti taborni&scaron;kega spletnega servisa RutkaNET zelo nedvomno pove, da je uporaba servisa v upadu že vsaj od leta 2007. Torej - dobrih 6 let. 6 let je dolga doba. To je doba dveh mandatov vodstva ZTS. Ničkoliko rodovih vodstev se je v tem času zamenjalo. Zgodilo se ni nič. Noben tabornik ni presekal mrtvila in rekel: \"Dovolj je! Popravimo to sramoto!\"</p>
+<p>Če sem kaj pri tabornikih spoznal, je to dejstvo, da s pravo vnemo skoraj ni nemogočih nalog. Taborniki smo sposobni. Pravzaprav smo vsi ljudje sposobni. Bolj ali manj edini pogoj je, da si vzamemo čas, da nam je nekaj dovolj pomembno ali pa da jim ga je za nekaj vredno žrtvovati. In po hitrem pregledu taborni&scaron;kega spleta ugotavljam, da so rodovi razvili prave male rodove informacijske sisteme, postavili odlične in zmogljive, vizualno privlačne spletne strani in &scaron;e in &scaron;e ...</p>
+<p>Zakaj torej nihče ni bil pripravljen žrtvovati svojega časa, da bi se ukvarjal z osrednjo taborni&scaron;ko spletno stranjo in splet je danes ... vsi vemo kaj. Problem RutkaNET-a v resnici ni njegova tehnična izvedba. Ta je lahko modularna in zahteva dober teden dela enega srednje izku&scaron;enega posameznika. Problem RutkaNET-a je v njegovi rabi. V zadovoljstvu razvijalca spletne strani, ko vidi, da so jo ljudje vzeli za svojo. Pa ne samo zaradi novic in koledarja - ti dve rubriki spadata v \"daj-dam\" kategorijo. Objavljajo se zaradi informiranja - zaradi reklame. Ampak recimo glede zbiranja gradiva, glede zbiranja idej za vodove sestanke, glede izpolnjevanja taborni&scaron;ke wiki zakladnice in &scaron;e marsikaj bi se na&scaron;lo med re&scaron;itvami, ki jih je ponujal biv&scaron;i RutkaNET in ki nikoli niso bile zares uporabljane, samo izrabljane. Razen v redkih svetlih trenutkih se ta filozofija deljenja znanja in virov z drugimi ni obnesla. Spra&scaron;ujem se, kako je možno, da tako možno gibanje (in precej manj osebno) kot je \"open source\", ni zajelo tabornikov, saj pravzaprav opisuje na&scaron;o filozofijo?</p>
+<p>RutkaNET je zaživel leta 1999. In takrat je bil alternativa. Alternativa zvezini apatičnosti do razvoja in uporabe novih tehnologij. Pisarna nas je sumničavo gledala izpod čela in se spra&scaron;evala, kak&scaron;ne skrite namene gojimo pobudniki te ideje. In takrat je bila ideja &scaron;iroko sprejeta in podprta. Veljaki območnih organizacij so se borili zanjo. Trajalo je kak&scaron;ni dve leti, preden so se stvari uredile in je odgovornost za vzdrževanje sistema pre&scaron;la tudi na ZTS. Navsezadnje so bili takrat od Rutke odvisni že &scaron;tevilni rodovi, rodova po&scaron;ta, obve&scaron;čevalne liste, forumi.&nbsp;<br />Mogoče je bil sistem alternativa premalo časa. Ne vem. Vem, da so vsi poskusi neslavno propadli. Niti ZTS kot taka, niti posamezniki niso prispevali vsebine. Tistih nekaj zapisnikov sej IO ZTS se je objavilo z bolj ali manj prebavljivo zamudo in s tem se je končalo ...&nbsp;</p>
+<p>Kaj vas torej moti, drage tabornice in taborniki?</p>','','','','')
+2013.11.11 21:43:49 --    - Unknown column 'bl_keywords' in 'field list'
+2013.11.11 21:48:05 -- SQL: insert into blog (id ,bl_title,bl_authorid,bl_date,bl_content,bl_keywords,bl_image1,bl_image2,bl_image3) values(0 ,'','1','2013-11-11','<p>Analiza podatkov o obiskanosti taborni&scaron;kega spletnega servisa RutkaNET zelo nedvomno pove, da je uporaba servisa v upadu že vsaj od leta 2007. Torej - dobrih 6 let. 6 let je dolga doba. To je doba dveh mandatov vodstva ZTS. Ničkoliko rodovih vodstev se je v tem času zamenjalo. Zgodilo se ni nič. Noben tabornik ni presekal mrtvila in rekel: \"Dovolj je! Popravimo to sramoto!\"<br />Če sem kaj pri tabornikih spoznal, je to dejstvo, da s pravo vnemo skoraj ni nemogočih nalog. Taborniki smo sposobni. Pravzaprav smo vsi ljudje sposobni. Bolj ali manj edini pogoj je, da si vzamemo čas, da nam je nekaj dovolj pomembno ali pa da jim ga je za nekaj vredno žrtvovati. In po hitrem pregledu taborni&scaron;kega spleta ugotavljam, da so rodovi razvili prave male rodove informacijske sisteme, postavili odlične in zmogljive, vizualno privlačne spletne strani in &scaron;e in &scaron;e ...<br />Zakaj torej nihče ni bil pripravljen žrtvovati svojega časa, da bi se ukvarjal z osrednjo taborni&scaron;ko spletno stranjo in splet je danes ... vsi vemo kaj. Problem RutkaNET-a v resnici ni njegova tehnična izvedba. Ta je lahko modularna in zahteva dober teden dela enega srednje izku&scaron;enega posameznika. Problem RutkaNET-a je v njegovi rabi. V zadovoljstvu razvijalca spletne strani, ko vidi, da so jo ljudje vzeli za svojo. Pa ne samo zaradi novic in koledarja - ti dve rubriki spadata v \"daj-dam\" kategorijo. Objavljajo se zaradi informiranja - zaradi reklame. Ampak recimo glede zbiranja gradiva, glede zbiranja idej za vodove sestanke, glede izpolnjevanja taborni&scaron;ke wiki zakladnice in &scaron;e marsikaj bi se na&scaron;lo med re&scaron;itvami, ki jih je ponujal biv&scaron;i RutkaNET in ki nikoli niso bile zares uporabljane, samo izrabljane. Razen v redkih svetlih trenutkih se ta filozofija deljenja znanja in virov z drugimi ni obnesla. Spra&scaron;ujem se, kako je možno, da tako možno gibanje (in precej manj osebno) kot je \"open source\", ni zajelo tabornikov, saj pravzaprav opisuje na&scaron;o filozofijo?<br />RutkaNET je zaživel leta 1999. In takrat je bil alternativa. Alternativa zvezini apatičnosti do razvoja in uporabe novih tehnologij. Pisarna nas je sumničavo gledala izpod čela in se spra&scaron;evala, kak&scaron;ne skrite namene gojimo pobudniki te ideje. In takrat je bila ideja &scaron;iroko sprejeta in podprta. Veljaki območnih organizacij so se borili zanjo. Trajalo je kak&scaron;ni dve leti, preden so se stvari uredile in je odgovornost za vzdrževanje sistema pre&scaron;la tudi na ZTS. Navsezadnje so bili takrat od Rutke odvisni že &scaron;tevilni rodovi, rodova po&scaron;ta, obve&scaron;čevalne liste, forumi.&nbsp;<br />Mogoče je bil sistem alternativa premalo časa. Ne vem. Vem, da so vsi poskusi neslavno propadli. Niti ZTS kot taka, niti posamezniki niso prispevali vsebine. Tistih nekaj zapisnikov sej IO ZTS se je objavilo z bolj ali manj prebavljivo zamudo in s tem se je končalo ...&nbsp;<br />Kaj vas torej moti, drage tabornice in taborniki?</p>','','','','')
+2013.11.11 21:48:05 --    - Unknown column 'bl_keywords' in 'field list'
+2016.02.07 23:04:48 -- SQL: insert into users (id ,us_name,us_image,us_username,us_password) values(0 ,'Klemen Kenda','klemen_kenda.jpg','bubi','53e7d1ed001f5ff2aae68c4ea082d837')
+2016.02.07 23:04:48 --    - Unknown column 'us_image' in 'field list'
+2016.02.08 01:52:29 -- SQL: insert into pilotuser (id ,pu_uid,pu_pid,pu_default) values(0 ,'1','1','1')
+2016.02.08 01:52:29 --    - Table 'seensy.pilotuser' doesn't exist
+2016.02.11 15:13:52 -- SQL: update visualizations SET id=1 ,vi_name='Weather Forecast',vi_subtitle='',vi_pid='1',vi_config='[
+    {
+        "title": "Row for info boxes",        
+        "columns": [
+            {
+                "title": "Column 1",
+                "class": "col-md-4",
+                "infoboxes": [
+                    "title": "Infobox",
+                    "color": "green",
+                    "icon": "fa fa-desktop",
+                    "value": "100%",
+                    "status": '<a href="javascript:;">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>'
+                ]
+            {
+                "title": "Column 2",
+                "class": "col-md-4",
+                "charts": [                    
+                    {
+                        "title": "Temperature vs. wind speed - week",
+                        "endDate": "now",
+                        "timeSpan": "2",
+                        "series": [
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-humidity",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            },
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-temperature",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            }                    
+                        ]
+                    }
+                ]
+            },
+            {
+                "title": "Column 3",
+                "class": "col-md-4",
+                "charts": [                    
+                    {
+                        "title": "Temperature vs. wind speed - week",
+                        "endDate": "now",
+                        "timeSpan": "3",
+                        "series": [
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-humidity",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            },
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-temperature",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            }                    
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Row for graphs",        
+        "columns": [
+            {
+                "title": "Column 1",
+                "class": "col-md-12",
+                "charts": [
+                    {
+                        "title": "Temperature vs. wind speed - month",
+                        "endDate": "now",
+                        "timeSpan": "30",
+                        "series": [
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-humidity",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            },
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-temperature",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            }                    
+                        ]
+                    },
+                    {
+                        "title": "Temperature vs. wind speed - week",
+                        "endDate": "now",
+                        "timeSpan": "7",
+                        "series": [
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-humidity",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            },
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-temperature",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            }                    
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]',vi_weight='50' where id=1
+2016.02.11 15:17:11 -- SQL: update visualizations SET id=1 ,vi_name='Weather Forecast',vi_subtitle='',vi_pid='1',vi_config='[
+    {
+        "title": "Row for info boxes",        
+        "columns": [
+            {
+                "title": "Column 1",
+                "class": "col-md-4",
+                "infoboxes": [
+                    {
+                        "title": "Infobox",
+                        "color": "green",
+                        "icon": "fa fa-desktop",
+                        "value": "100%",
+                        "status": '<a href="javascript:;">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>'
+                    }
+                ]
+            },
+            {
+                "title": "Column 2",
+                "class": "col-md-4",
+                "charts": [                    
+                    {
+                        "title": "Temperature vs. wind speed - week",
+                        "endDate": "now",
+                        "timeSpan": "2",
+                        "series": [
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-humidity",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            },
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-temperature",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            }                    
+                        ]
+                    }
+                ]
+            },
+            {
+                "title": "Column 3",
+                "class": "col-md-4",
+                "charts": [                    
+                    {
+                        "title": "Temperature vs. wind speed - week",
+                        "endDate": "now",
+                        "timeSpan": "3",
+                        "series": [
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-humidity",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            },
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-temperature",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            }                    
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Row for graphs",        
+        "columns": [
+            {
+                "title": "Column 1",
+                "class": "col-md-12",
+                "charts": [
+                    {
+                        "title": "Temperature vs. wind speed - month",
+                        "endDate": "now",
+                        "timeSpan": "30",
+                        "series": [
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-humidity",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            },
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-temperature",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            }                    
+                        ]
+                    },
+                    {
+                        "title": "Temperature vs. wind speed - week",
+                        "endDate": "now",
+                        "timeSpan": "7",
+                        "series": [
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-humidity",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            },
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-temperature",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            }                    
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]',vi_weight='50' where id=1

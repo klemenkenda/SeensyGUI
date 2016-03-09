@@ -1,0 +1,17 @@
+<!-- predefined reporting -->
+<script src="/template/js/seensy.predefined.js"></script>
+<script>
+    var systemNodes;
+    
+    function loadPredefinedVisualizations() {
+        var pVConfigJSON = %configJSON%;        
+        var predefinedVisualization = new PredefinedVisualization(systemNodes);
+        predefinedVisualization.init(pVConfigJSON);
+    }
+    
+    $(document).ready(function() {
+        systemNodes = new SystemNodes();
+        systemNodes.init(loadPredefinedVisualizations);                
+    })
+</script>
+<!-- end of predefined reporting -->

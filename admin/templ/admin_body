@@ -1,0 +1,30 @@
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#"><<razdel>></a>
+          <div class="nav-collapse collapse">
+            <p class="navbar-text pull-right">
+              <a href="?logout">Log Out</a>
+            </p>
+            <ul class="nav">
+              <li class="active"><a href="/admin"> <<admin_home>>Domov</a></li>
+              <li class="active"><a href="/"> <<page_home>>Stran</a></li>							
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+				
+		
+		
+<!--
+<TABLE cellSpacing=0 cellPadding=0 width=100% border=0><TR vAlign=bottom>
+<TD align=left><B><<razdel>></B></TD><TD align=right width=1%><IMG height=14 src=img/endcap-grey.gif width=14></TD></TR>
+<TR vAlign=bottom><TD colspan=2 bgColor=#cecece><IMG height=1 src="img/pixel.gif" width=1></TD></TR>
+<TR vAlign=bottom><TD colspan=2><br><<body_text>></TD></TR></TABLE>
+-->

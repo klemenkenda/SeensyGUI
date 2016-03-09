@@ -1,0 +1,21 @@
+TR {FONT: 11px/15px Verdana;}
+BODY {COLOR: #000000; FONT: 11px/15px Verdana; SCROLLBAR-SHADOW-COLOR: silver; SCROLLBAR-3DLIGHT-COLOR: silver; SCROLLBAR-ARROW-COLOR: #000000; SCROLLBAR-TRACK-COLOR: white; SCROLLBAR-DARKSHADOW-COLOR: silver; SCROLLBAR-BASE-COLOR: white}
+A {FONT: 11px Verdana; CURSOR: hand; COLOR: <<link_default>>; TEXT-DECORATION: none}
+A:hover {COLOR: <<link_hover>>; TEXT-DECORATION: underline overline}
+.name_field {BACKGROUND-COLOR: <<name_field_bg>>; COLOR: <<name_field_text>>;}
+.data_field {BACKGROUND-COLOR: <<data_field_bg>>;}
+.but_field {text-align: center; BACKGROUND-COLOR: <<but_field_bg>>;}
+.errors {FONT: 10px/10px Verdana; BACKGROUND-COLOR: <<errors_bg>>; COLOR: <<errors_text>>; text-align: center; FONT-WEIGHT: bold;}
+.errors_symb {COLOR: <<errors_symb>>;}
+.adm_main_title {FONT-WEIGHT: bold; FONT-SIZE: 19px; COLOR: <<main_title_text>>; BACKGROUND-COLOR: <<main_title_bg>>; LINE-HEIGHT: normal; FONT-STYLE: normal; FONT-VARIANT: normal}
+.adm_menu_selected {BACKGROUND-COLOR: <<selected_menu>>}
+.main_body {COLOR: <<admin_title_text>>; BACKGROUND-COLOR: <<admin_bg>>;}
+.adm_menu_head {BACKGROUND-COLOR: <<menuhead_bg>>; COLOR: <<menuhead_text>>; text-align: center; FONT-WEIGHT: bold;}
+.form {FONT: 11px/15px Verdana; COLOR: <<input_text>>; BACKGROUND-COLOR: <<input_bg>>; BORDER-RIGHT: <<input_border>> 1px solid; BORDER-TOP: <<input_border>> 1px solid; BORDER-LEFT: <<input_border>> 1px solid; BORDER-BOTTOM: <<input_border>> 1px solid;}
+.but {FONT: 11px/15px Verdana; COLOR: <<button_text>>; BACKGROUND-COLOR: <<button_bg>>; BORDER-RIGHT: <<button_border>> 1px solid; BORDER-TOP: <<button_border>> 1px solid; BORDER-LEFT: <<button_border>> 1px solid; BORDER-BOTTOM: <<button_border>> 1px solid;}
+.ln   {font-family: Verdana; font-size: 8pt; color: <<list_head_text>>; background-color: <<list_head_bg>>; text-align: center; text-decoration: none; font-weight: bold}
+.ln1  {font-family: Verdana; font-size: 8pt; color: <<list_line1_text>>; background-color: <<list_line1_bg>>; text-align: center; text-decoration: none}
+.ln2  {font-family: Verdana; font-size: 8pt; color: <<list_line2_text>>; background-color: <<list_line2_bg>>; text-align: center; text-decoration: none}
+.ln_sel  {font-family: Verdana; font-size: 8pt; color: <<list_selected_text>>; background-color: <<list_selected_bg>>; text-align: center; text-decoration: none}
+.asubmenu {FONT: 11px Verdana; CURSOR: hand; COLOR: <<submenulink_default>>; TEXT-DECORATION: none}
+.asubmenu:hover {COLOR: <<submenulink_hover>>; TEXT-DECORATION: underline overline}

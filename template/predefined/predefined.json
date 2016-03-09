@@ -1,0 +1,125 @@
+[
+    {
+        "title": "Row for info boxes",        
+        "columns": [
+            {
+                "title": "Column 1",
+                "class": "col-md-4",
+                "infoboxes": [
+                    {
+                        "title": "Temperature for tomorrow",
+                        "color": "green",
+                        "icon": "fa fa-line-chart",                           
+                        "value": {
+                            "decimals": 1,
+                            "type": "lastValue",
+                            "sensorId": "FIO-Vienna-HTC-FIO-temperature"
+                        },
+                        "status": "More about weather",
+                        "link": "http://dashboard.seensy.me/en/predefined/1/weather-forecast"
+                    }
+                ]
+            },
+            {
+                "title": "Column 2",
+                "class": "col-md-4",
+                "infoboxes": [
+                    {
+                        "title": "Humidity now",
+                        "color": "blue",
+                        "icon": "fa fa-flask",
+                        "value": {
+                            "type": "tsValue",
+                            "timestamp": "now",
+                            "endDate": "now",
+                            "timeSpan": "3",
+                            "formula": "100 * x",
+                            "uom": "%", 
+                            "series": [
+                                {
+                                    "sensorId": "FIO-Vienna-HTC-FIO-humidity",
+                                    "aggregate": "raw",
+                                    "window": "raw",
+                                }
+                            ]
+                        },
+                        "status": "More about weather",
+                        "link": "http://dashboard.seensy.me/en/predefined/1/weather-forecast"
+                    }
+                ]
+            },
+            {
+                "title": "Column 3",
+                "class": "col-md-4",
+                "infoboxes": [
+                    {
+                        "title": "Temperature now",
+                        "color": "red",
+                        "icon": "fa fa-bolt",
+                        "value": {
+                            "type": "tsValue",
+                            "timestamp": "now",
+                            "endDate": "now",
+                            "timeSpan": "7",
+                            "decimals": 1, 
+                            "series": [
+                                {
+                                    "sensorId": "FIO-Vienna-HTC-FIO-temperature",
+                                    "aggregate": "raw",
+                                    "window": "raw",
+                                }
+                            ]
+                        },
+                        "status": "More about weather",
+                        "link": "http://dashboard.seensy.me/en/predefined/1/weather-forecast"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Row for graphs",        
+        "columns": [
+            {
+                "title": "Column 1",
+                "class": "col-md-12",
+                "charts": [
+                    {
+                        "title": "Temperature vs. wind speed - month",
+                        "endDate": "now",
+                        "timeSpan": "30",
+                        "series": [
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-humidity",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            },
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-temperature",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            }                    
+                        ]
+                    },
+                    {
+                        "title": "Temperature vs. wind speed - week",
+                        "endDate": "now",
+                        "timeSpan": "7",
+                        "series": [
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-humidity",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            },
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-temperature",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            }                    
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

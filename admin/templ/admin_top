@@ -1,0 +1,97 @@
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">RutkaCMS</a>
+          <div class="nav-collapse collapse">
+            <p class="navbar-text pull-right">
+              <a href="?logout">Log Out</a>
+            </p>
+            <ul class="nav">
+              <li class="active"><a href="/admin"> <<admin_home>>Domov</a></li>
+              <li class="active"><a href="/"> <<page_home>>Stran</a></li>							
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+				
+    <!-- Le styles -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+
+      @media (max-width: 980px) {
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+          float: none;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+    </style>				
+
+		<div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+						  <li class="nav-header">Drevesna struktura strani</li>
+							<li><<tree>></li>
+							<li class="divider"></>
+						  <li class="nav-header">Moduli</li>
+							<<main_menu>>
+						</ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+				<<body_text>>
+				
+
+
+<!--
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+<TR><TD background=img/background-4.gif vAlign=center class=adm_main_title><B> &nbsp; <<systemname>></B></TD><TD background=img/background-4.gif vAlign=center align=right class=adm_main_title><<langs>> &nbsp; <a href="?logout">Log Out</a>&nbsp;</TD></TR>
+<TR><TD COLSPAN=2 background=img/checkerboard.gif height=1><IMG height=1 src="img/pixel.gif" width=686></TD></TR>
+</TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width=100% height=85% class=main_body border=0>
+<TR vAlign=top><TD width=275><IMG height=1 alt="" src="img/pixel.gif" width=275><BR>
+<div id=mini_menu style="position:absolute; left:10px; top:40px; z-index:7; overflow: visible; visibility: visible; border: 1px none #000000">
+
+<TABLE cellSpacing=0 cellPadding=0 width=255 border=0>
+<TR><TD width=8 height=8><IMG src="img/top-left.gif" border=0></TD>
+<TD width=239 height=8 background=img/top-center.gif></TD>
+<TD width=8 height=8><IMG src="img/top-right.gif" border=0></TD></TR>
+<TR><TD background=img/middle-left.gif height=16 class=adm_menu_head>&nbsp;</TD>
+<TD background=img/middle-center.gif height=16 class=adm_menu_head><<mainmenu>></TD>
+<TD background=img/middle-right.gif height=16 class=adm_menu_head>&nbsp;</TD></TR>
+<TR><TD background=img/tab-left.gif>&nbsp;</TD>
+<TD bgcolor=#FFFFFF><br><<tree>><br></TD>
+<TD background=img/tab-right.gif>&nbsp;</TD></TR>
+<TR><TD background=img/middle-left.gif height=16 class=adm_menu_head>&nbsp;</TD>
+<TD background=img/middle-center.gif height=16 class=adm_menu_head>Moduli</TD>
+<TD background=img/middle-right.gif height=16 class=adm_menu_head>&nbsp;</TD></TR>
+<TR><TD background=img/tab-left.gif>&nbsp;</TD>
+<TD bgcolor=#FFFFFF><br><<main_menu>><br></TD>
+<TD background=img/tab-right.gif>&nbsp;</TD></TR>
+<TR><TD height=8><IMG src="img/bottom-left.gif" border=0></TD>
+<TD height=8 background=img/bottom-center.gif></TD>
+<TD height=8><IMG src="img/bottom-right.gif" border=0></TD></TR>
+</TABLE></div>
+<BR>
+-->
+<!--
+</TD><TD width=1 background=img/checkerboard.gif><IMG height=1 src="img/pixel.gif" width=1></TD>
+<TD width=10><IMG height=1 src="img/pixel.gif" width=10></TD><TD>
+
+-->

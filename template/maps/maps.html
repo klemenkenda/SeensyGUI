@@ -1,0 +1,103 @@
+<script src="/template/js/markerclusterer.min.js"></script>
+<script>
+// start request
+$.ajax({
+  url: '/api/get-nodes',
+  success: mapLoadedNodes
+});
+
+function mapLoadedNodes(data) {
+	var map = new handleGoogleMap();
+	map.init();
+	console.log(map);
+	map.addMarkers(data);
+};
+
+function handleGoogleMap() {
+	"use strict";
+	var map;
+	var mc;
+	
+	var styles =[{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40}]},{"elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":19}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]}];
+	styles=[{"featureType":"water","stylers":[{"color":"#021019"}]},{"featureType":"landscape","stylers":[{"color":"#08304b"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#0c4152"},{"lightness":5}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#0b434f"},{"lightness":25}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"road.arterial","elementType":"geometry.stroke","stylers":[{"color":"#0b3d51"},{"lightness":16}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"}]},{"elementType":"labels.text.fill","stylers":[{"color":"#ffffff"}]},{"elementType":"labels.text.stroke","stylers":[{"color":"#000000"},{"lightness":13}]},{"featureType":"transit","stylers":[{"color":"#146474"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#144b53"},{"lightness":14},{"weight":1.4}]}];
+	styles=[{"featureType":"administrative","stylers":[{"visibility":"simplified"}, {"color":"#4c4c06"}]},{"featureType":"poi","stylers":[{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"simplified"}]},{"featureType":"water","stylers":[{"visibility":"simplified"}]},{"featureType":"transit","stylers":[{"visibility":"simplified"}]},{"featureType":"landscape","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","stylers":[{"visibility":"off"}]},{"featureType":"road.local","stylers":[{"visibility":"on"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"water","stylers":[{"color":"#84afa3"},{"lightness":52}]},{"stylers":[{"saturation":-17},{"gamma":0.36}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#3f518c"}]},{"featureType":"administrative.locality","elementType":"All","visibility":"on"}];
+	styles=[{"stylers":[{"hue":"#2c3e50"},{"saturation":250}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":50},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]}];
+	this.init = function() {		
+		console.log("init");
+		var latlng = new google.maps.LatLng(48.162660, 16.336073);
+		var myOptions = {
+			zoom: 18,
+			center: latlng,
+			panControlOptions: {
+				position: google.maps.ControlPosition.LEFT_CENTER
+			},
+			zoomControlOptions: {			
+				position: google.maps.ControlPosition.LEFT_CENTER
+			},
+			mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU, position: google.maps.ControlPosition.RIGHT_BOTTOM},
+			mapTypeId: google.maps.MapTypeId.ROADMAP,
+			styles: styles
+		};	
+		map = new google.maps.Map(document.getElementById("google-map-default"), myOptions);		
+	}
+		
+	
+	this.addMarkers = function(data) {
+        console.log(data);
+		var nodes = JSON.parse(data);
+		var i, j;
+		var markers = [];
+		for (i = 0; i < nodes.length; i++) {
+			console.log(nodes[i].Name);
+			console.log(nodes[i].Position[0]);
+		    
+			// create info window content
+			var contentString = "<h3>" + nodes[i].Name + "</h3>";
+			contentString += "<ul>";
+	
+			for (j = 0; j < nodes[i].Sensors.length; j++) {
+			    contentString += '<li><a href=\'javascript:selectSensor("' + escape(nodes[i].Sensors[j].Name) + '");\'>' + nodes[i].Sensors[j].Name + '</a></li>';
+			}
+	
+			contentString += "</ul>";
+	
+			// create info window
+			var myinfowindow = new google.maps.InfoWindow({
+			    content: contentString
+			});
+			
+			// categorize marker
+			var iconStr = "velocimeter";			
+			if (nodes[i].Name.substr(0, 3) == "FIO") iconStr = "anemometer";
+			if (nodes[i].Name.substr(0, 3) == "WWO") iconStr = "anemometer";
+			if (nodes[i].Name.substr(0, 3) == "OWM") iconStr = "anemometer";
+	
+			// create marker	
+			var markerLatLng = new google.maps.LatLng(nodes[i].Position[0], nodes[i].Position[1]);	
+			var the_marker = new google.maps.Marker({
+				position: markerLatLng,
+				title: nodes[i].Name,
+				map: map,
+				infowindow: myinfowindow,
+				clickable: true,
+				icon: '/template/maps/' + iconStr + '.png'
+			});
+	
+			google.maps.event.addListener(the_marker, 'click', function () {
+			    this.infowindow.open(map, this);
+			});
+			markers.push(the_marker);
+			the_marker.setMap(map);
+		}
+		mc = new MarkerClusterer(map, markers);
+	}
+	
+	$(window).resize(function() {
+        	google.maps.event.trigger(mapDefault, "resize");
+	});
+	
+	return this;
+}
+
+</script>
+
