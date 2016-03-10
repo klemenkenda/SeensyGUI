@@ -14,6 +14,19 @@
         }
         return year + "-" + month + "-" + day;
     }
+
+    Date.createFromMysql = function (mysql_string) {
+        var t, result = null;
+
+        if (typeof mysql_string === 'string') {
+            t = mysql_string.split(/[- :]/);
+
+            //when t[3], t[4] and t[5] are missing they defaults to zero
+            result = new Date(t[0], t[1] - 1, t[2], t[3] || 0, t[4] || 0, t[5] || 0);
+        }
+
+        return result;
+    }
 })();
 
 
@@ -172,9 +185,13 @@ function PredefinedVisualization(systemNodes) {
                         pv.addNewChart("col-" + rid + "-" + cid, chart["title"]);
                         // set chart dates                        
                         if (chart["endDate"] == "now") var endDate = new Date();
+                        else if (chart["endDate"] == "last") /* TODO */;
+                        else {
+                            var endDate = Date.createFromMysql(chart["endDate"]);
+                        }
                         // correct date for QMiner limits
                         endDate.setDate(endDate.getDate() +  1);
-                        var startDate = new Date();
+                        var startDate = new Date(endDate.getTime());
                         startDate.setDate(endDate.getDate() - chart["timeSpan"]);                    
 
                         // load time series
@@ -213,7 +230,7 @@ function PredefinedVisualization(systemNodes) {
                             var startDate = new Date();
                             startDate.setDate(endDate.getDate() - infobox["value"]["timeSpan"]);      
                             
-                            $.each(infobox["value"]["series"], function(isid, series) {
+                            $.each(infobox["value"]["serie2s"], function(isid, series) {
                                 pv.infoBoxes[pv.infoBoxNumber - 1].addSeries(series["sensorId"], startDate.toYMD(), endDate.toYMD(), series["aggregate"], series["window"]);    
                             });                            
                         }                                                
