@@ -101,8 +101,10 @@ function PredefinedVisualization(systemNodes) {
     this.config;
     this.chartNumber = 0;
     this.infoBoxNumber = 0;
+    this.profileNumber = 0;
     this.charts = [];
     this.infoBoxes = [];
+    this.profiles = [];
     this.systemNodes = systemNodes;
     
     var pv = this;
@@ -141,7 +143,39 @@ function PredefinedVisualization(systemNodes) {
         // $('#ucontainer' + this.chartNumber).render();
     };
     
+    /**
+     * Add new profile
+     *
+     * @param columnid {string} HTML id of the column, where we are adding the chart to.
+     * @param chartTitle {string} HTML DIV id for the container of the highchart
+     */
+    this.addNewProfile = function(columnid, profileTitle) {   
     
+        this.profileNumber = this.profiles.length + 1;
+        $("#" + columnid).append(            
+            '<div class="panel panel-inverse"> ' +
+                '<div class="panel-heading ui-sortable"> ' +
+                    '<div class="panel-heading-btn"> ' +
+                        '<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"> <i class="fa fa-expand"> </i></a> ' +
+                        '<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"> <i class="fa fa-repeat"> </i> </a> ' +
+                        '<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"> <i class="fa fa-minus"> </i> </a> ' +
+                        '<!-- ??? Catch remove and update counter/chart list. -->' +
+                        '<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a> ' +
+                    '</div> ' +
+                    '<h4 class="panel-title" id="loadingChart"' + this.profileNumber + ' class=>' + profileTitle + '</h4>' +
+                '</div> ' +
+                '<div class="panel-body"> ' +
+                    '<form class="form-horizontal form-bordered"> ' +
+                        '<div id="pcontainer'+ this.profileNumber + '" class="panel-body chart-container"> </div> ' +
+                    '</form> ' +
+                '</div> ' +                
+            '</div>'
+        );
+        
+        $('#ucontainer' + this.profileNumber).trigger('create');
+        this.profiles[this.profileNumber - 1] = new HighChartProfile("pcontainer" + this.profileNumber, this.profileNumber, this.systemNodes);
+        // $('#ucontainer' + this.chartNumber).render();
+    };
     
     this.addNewInfobox = function(columnid, title, color, icon, value, status, link, infoBoxConfig) {
         this.infoBoxNumber = this.infoBoxes.length + 1;
@@ -201,6 +235,47 @@ function PredefinedVisualization(systemNodes) {
                         });
                     });
                 }
+                // traverse profiles
+                if (col["profiles"]) {
+                    $.each(col["profiles"], function(prid, profile) {
+                        pv.addNewProfile("col-" + rid + "-" + cid, profile["title"]);
+                        // set histogram dates
+                        if (profile["endDate"] == "now") var endDate = new Date();
+                        else if (profile["endDate"] == "last") /* TODO */;
+                        else if (profile["endDate"] == "offset") {
+                            // now
+                            var endDate = new Date();
+                            // add/substract
+                            switch (profile["endDateOffsetType"]) {
+                                case "year":
+                                    endDate.setFullYear(endDate.getFullYear() + profile["endDateOffset"]);
+                                    break;
+                                case "month":
+                                    endDate.setMonth(endDate.getMonth() + profile["endDateOffset"]);
+                                    break;
+                                case "day":
+                                    endDate.setDate(endDate.getDate() + profile["endDateOffset"]);
+                                    break;                                                                
+                            }
+                        }
+                        else {
+                            var endDate = Date.createFromMysql(profile["endDate"]);
+                        };
+                        
+                                            
+                        // correct date for QMiner limits
+                        endDate.setDate(endDate.getDate() +  1);
+                        var startDate = new Date(endDate.getTime());
+                        startDate.setDate(endDate.getDate() - profile["timeSpan"]); 
+                        
+                        
+                        // load time series
+                        $.each(profile["series"], function(seriesid, series) {
+                            console.log(series);
+                            pv.profiles[pv.profileNumber - 1].addSeries(series["sensorId"], startDate.toYMD(), endDate.toYMD(), series["aggregate"], series["window"]);
+                        });
+                    });
+                }
                 // traverse over infoboxes
                 else if (col["infoboxes"]) {
                     $.each(col["infoboxes"], function (iid, infobox) {
@@ -230,7 +305,7 @@ function PredefinedVisualization(systemNodes) {
                             var startDate = new Date();
                             startDate.setDate(endDate.getDate() - infobox["value"]["timeSpan"]);      
                             
-                            $.each(infobox["value"]["serie2s"], function(isid, series) {
+                            $.each(infobox["value"]["series"], function(isid, series) {
                                 pv.infoBoxes[pv.infoBoxNumber - 1].addSeries(series["sensorId"], startDate.toYMD(), endDate.toYMD(), series["aggregate"], series["window"]);    
                             });                            
                         }                                                
@@ -376,6 +451,296 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
     
 }
 
+/**
+ * HighChartProfile object - graph and data management
+ */
+function HighChartProfile(container, chartNumber, systemNodes) {
+    this.data = [];
+    this.timeInterval;
+    this.dateStart;
+    this.dateEnd;
+    this.aggregateType;
+    this.dataType;
+    this.raw;    
+    this.chartNumber = chartNumber;
+    this.systemNodes = systemNodes;  
+    
+    this.newChart = function(container) {
+        //inits an empty highchart
+        return new Highcharts.Chart({
+            chart: {
+                zoomType: 'x',
+                renderTo: container,
+                height: '500'
+            },
+            title: {
+                text: ''
+            },
+            subtitle: {
+                text: document.ontouchstart === undefined ?
+                        'Click and drag in the plot area to zoom in' :
+                        'Pinch the chart to zoom in'
+            },
+            xAxis: {
+                // type: 'datetime',
+            },
+            legend: {
+                enabled: true
+            },
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                        stops: [
+                            [0, Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]
+                    },
+                    marker: {
+                        radius: 2
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
+            },
+        });
+    }
+    
+    this.chart = this.newChart(container);
+    this.chart.yAxis[0].remove();
+    
+    this.addSeries = function (dataType, dateStart, dateEnd, aggregateType, timeInterval) {
+        // collecting data from form
+        $('#loadingChart' + this.chartNumber).text('Adding new series ...');
+        this.dataType = dataType;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.aggregateType = aggregateType;
+        this.timeInterval = timeInterval;        
+        
+        if (this.timeInterval == "raw") {
+            if (dateDiff(this.dateStart.split("-"), this.dateEnd.split("-")) > 500) {
+                alert("Too much data. Please select a smaller interval.");
+                return;
+            }
+            this.raw = "Yes";
+        }
+        else {
+            if (this.timeInterval == "1h") {
+                if (dateDiff(this.dateStart.split("-"), this.dateEnd.split("-")) > 62) {
+                    alert("Too much data. Please select a smaller interval (less than 2 months), or a bigger sampling interval.");
+                    $('#loadingChart' + this.chartNumber).text('Chart');
+                    return;
+                }
+            }
+            else if (this.timeInterval == "6h") {
+                if (dateDiff(this.dateStart.split("-"), this.dateEnd.split("-")) > 300) {
+                    alert("Too much data. Please select a smaller interval (less than 7 months), or a bigger sampling interval.");
+                    $('#loadingChart' + this.chartNumber).text('Chart');
+                    return;
+                }
+            }
+            else if (this.timeInterval == "1d") {
+                if (dateDiff(this.dateStart.split("-"), this.dateEnd.split("-")) > 1000) {
+                    alert("Too much data. Please select a smaller interval (less than 2.5 years), or a bigger sampling interval.");
+                    $('#loadingChart' + this.chartNumber).text('Chart');
+                    return;
+                }
+            }
+            else if (this.timeInterval == "1w") {
+                if (dateDiff(this.dateStart.split("-"), this.dateEnd.split("-")) > 4000) {
+                    alert("Too much data. Please select a smaller interval (less than 10 years), or a bigger sampling interval.");
+                    $('#loadingChart' + this.chartNumber).text('Chart');
+                    return;
+                }
+            }
+            else if (this.timeInterval == "1m") {
+                if (dateDiff(this.dateStart.split("-"), this.dateEnd.split("-")) > 13000) {
+                    alert("Too much data. Please select a smaller interval (less than 30 years), or a bigger sampling interval.");
+                    $('#loadingChart' + this.chartNumber).text('Chart');
+                    return;
+                }
+            }
+            else if (this.timeInterval == "1y") {
+                if (dateDiff(this.dateStart.split("-"), this.dateEnd.split("-")) > 100000) {
+                    alert("Too much data. Please select a smaller interval (less than 200 years), or a bigger sampling interval.");
+                    $('#loadingChart' + this.chartNumber).text('Chart');
+                    return;
+                }
+            }
+            this.raw = "No";
+        }
+        var myUrl;
+		
+		if (this.aggregateType == "prediction") {
+			if (typeof this[this.dataType] == 'undefined') {
+				alert("Prediction not available for this sensor.");
+			}
+			else {
+				myUrl = "/proxy.php?cmd=/AggregateService/services/prediction-api/get-predictions?p=" + this.dataType + ":" + this[this.dataType] + ":"+ this.dateStart + ":" + this.dateEnd;
+			}
+		}
+        else if (this.raw == "No") {
+            myUrl = '/api/get-aggregates?p=' + escape(this.dataType) + ':' + this.aggregateType + ':' + this.timeInterval + ':' + this.dateStart + ':' + this.dateEnd;
+        }
+        else if (this.raw == "Yes") {
+            myUrl = '/api/get-measurements?p=' + escape(this.dataType) + ':' + this.dateStart + ':' + this.dateEnd;			
+        }
+        else {
+            console.log("ERROR in checking equality!")
+        }
+		console.log(myUrl);
+        // making a copy of this object, so that we preserve data within multiple async calls
+        var contextThis = jQuery.extend({}, this);
+        $.ajax({
+            url: myUrl,
+            success: function (data1) { this.loadedAggregates(data1, this.dataType, this.aggregateType, this.timeInterval) },
+            context: contextThis,
+			error: function (x, y, z) {alert(y);}
+        });
+    };
+    
+    this.loadedAggregates = function (data1, dataType, aggregateType, timeInterval) {
+        
+        //extracting info about data
+		data1 = JSON.parse(data1);
+		if (!(typeof data1[0] == 'undefined') && typeof data1[0]["Val"] == 'undefined') {
+			var data2 = [];
+			for (var i = 0; i < data1.length; i++) {
+				data2.push({"Val" : data1[i]["value"], "Timestamp" : data1[i]["timestamp"]});
+			}
+			// console.log(data2);
+		}
+		else {
+			data2 = data1;
+		}
+		//console.log("TUTU: ", data2);
+        datayDescription = "N/A";
+        datayUnit = "N/A";
+        
+        console.log(this.systemNodes);
+        
+        if (this.systemNodes.sensorTable[dataType]) {
+            found = true;
+            /*
+            counter = namesToLocations[dataType].fst;
+            counter2 = namesToLocations[dataType].snd;
+            datayDescription = myNodes[counter].Sensors[counter2].Phenomenon;
+            datayUnit = myNodes[counter].Sensors[counter2].UoM;
+            */
+            datayDescription = this.systemNodes.sensorTable[dataType].Phenomenon;
+            datayUnit = unescape(this.systemNodes.sensorTable[dataType].UoM);
+        }
+        else {
+            found = false;
+        }
+
+        if (found == false) {
+            console.log("ERROR: Data info not found in nodes.");
+        }
+        if (datayDescription == "" || datayDescription == "-") datayDescription = "N/A";
+        if (datayUnit == "" || datayUnit == "-") datayUnit = "N/A";
+
+        //checking if additional y axis needed because unit does not exist yet or scales are too different
+        //find all y axis with same unit
+        var axisData = [];
+        for (i = 0; i < this.chart.yAxis.length; i++) {
+            if (this.chart.options.yAxis[i].title.text == datayUnit) {
+                axisData[axisData.length] = {
+                    "index": i,
+                    "min": this.chart.options.yAxis[i].min,
+                    "max": this.chart.options.yAxis[i].max
+                };
+            }
+        }
+        //outputing collected data (& after finding min/max deciding if adding new axis)
+
+        console.log("Added data length: " + data2.length);
+        this.data[this.data.length] = data2;
+        
+        var data1 = [];
+        var date;
+        var timedate;
+        var min = Infinity;
+        var max = -Infinity;
+        for (j = 0; j < data2.length; j++) {
+            timedate = data2[j].Timestamp.split("T");
+            date = timedate[0].split("-");
+            time = timedate[1].split(":");
+			if (typeof time[2] == 'undefined') { time[2] = 0; }
+            data1[data1.length] = [Date.UTC(date[0], date[1] - 1, date[2], time[0], time[1], time[2]), data2[j].Val]
+            if (data2[j].Val < min) {
+                min = data2[j].Val;
+            }
+            else if (data2[j].Val > max) {
+                max = data2[j].Val;
+            }
+        }
+		
+        //adding y axis if needed
+        addedNumber = ""; //number added to axis id so we can seperate axis with same unit
+        i = 0;
+        axisIndex = -1;
+        addAxis = true;
+        while (addAxis && i < axisData.length) {
+            // /3 gives us effectively maximum 6x the scale size (but only maximum 3x up and 3x down)
+            if (axisData[i].max - axisData[i].min > Math.abs(axisData[i].max - max) / 3 &&
+                axisData[i].max - axisData[i].min > Math.abs(axisData[i].min - min) / 3  ) {
+                //in this case we already have an appropriate axis
+                addAxis = false;
+                axisIndex = axisData[i].index;
+            }
+            i++;
+        }
+        newMin = min - (max - min) * 0.1;
+        newMax = max + (max - min) * 0.1;
+        if (addAxis) {
+            console.log("Adding new axis: " + datayUnit + addedNumber + ".")
+            if (axisData.length != 0) {
+                addedNumber = axisData.length;
+            }
+            this.chart.addAxis({
+                id: datayUnit + addedNumber,
+                title: {
+                    text: datayUnit + addedNumber
+                },
+                min: newMin,
+                max: newMax
+            });
+        }
+        else {
+            if (i - 1 != 0) {
+                addedNumber = i - 1; //i-1 is where we found the right axis to add data on
+            }
+        }
+        //adding data
+        $('#loadingChart' + chartNumber).text('Rendering chart ...');
+        this.chart.addSeries({
+            type: 'line',
+            data: data1,
+            name: dataType + "(" + timeInterval + "-" + aggregateType + ")" + ": " + datayDescription + " - " + datayUnit + addedNumber,
+            yAxis: datayUnit + addedNumber
+        });
+        if (axisIndex != -1) {
+            this.chart.options.yAxis[axisIndex].min = Math.min(newMin, this.chart.options.yAxis[axisIndex].min);
+            this.chart.options.yAxis[axisIndex].max = Math.max(newMax, this.chart.options.yAxis[axisIndex].max);
+            this.chart.yAxis[axisIndex].min = Math.min(newMin, this.chart.options.yAxis[axisIndex].min);
+            this.chart.yAxis[axisIndex].max = Math.max(newMax, this.chart.options.yAxis[axisIndex].max);
+            this.chart.yAxis[axisIndex].options.startOnTick = true;
+            this.chart.yAxis[axisIndex].options.endOnTick = true;
+            this.chart.yAxis[axisIndex].setExtremes(this.chart.options.yAxis[axisIndex].min, this.chart.options.yAxis[axisIndex].max);
+        }
+        
+        this.chart.redraw();
+        $('#loadingChart' + chartNumber).text('Chart');
+        console.log("Added series: " + dataType + "(" + timeInterval + "-" + aggregateType + ")" + ": " + datayDescription + " - " + datayUnit + addedNumber + ".");
+    };
+}
 
 /**
  * Highchart object - graph and data management

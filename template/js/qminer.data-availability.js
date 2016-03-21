@@ -22,7 +22,7 @@ function AvailabilityChart() {
     	calcHeight = 100;
     	console.log(calcHeight);
     	
-        var settings = {
+        var settingsOrig = {
 
             chart: {
                 type: 'columnrange',
@@ -49,7 +49,7 @@ function AvailabilityChart() {
             tooltip: {
                 //headerFormat: '<b>{series.xAxis}</b><br>',
                 pointFormat: '{point.low:%e. %B %Y}: {point.high: %e. %b. %Y}'
-            },
+            }, 
 
             plotOptions: {
                 columnrange: {
@@ -73,45 +73,49 @@ function AvailabilityChart() {
     	// categories: ['Jan', 'Feb']
     	sensors = [];
     	myData = [];
+    	var settings = [];
+    	settings[0] = jQuery.extend(true, {}, settingsOrig);
+    	var n = 0;
     	for (var i in this.nodes) {    	  
-    	    sensorsNode = this.nodes[i].Sensors;
-    	    for (var s in sensorsNode) {
-    	        sensors.push(sensorsNode[s].Name);
-    	        calcHeight += 20;
-    	        if (sensorsNode[s].StartDate != '0000-00-00')  
-    	            myData.push([toUTCDate(sensorsNode[s].StartDate), toUTCDate(sensorsNode[s].EndDate)]);
-    	    	else
-    	    	    myData.push([]);
-    	    }
-    	}
+    	  
+	    sensorsNode = this.nodes[i].Sensors;
+	    for (var s in sensorsNode) {
+		sensors.push(sensorsNode[s].Name);
+		calcHeight += 20;
+		if (sensorsNode[s].StartDate != '0000-00-00')  
+		    myData.push([toUTCDate(sensorsNode[s].StartDate), toUTCDate(sensorsNode[s].EndDate)]);
+		else
+		    myData.push([]);
+	    }
+    	  
     	
-    	console.log(myData);
-    	settings.chart.height = calcHeight;
-    	
-    	settings.xAxis = { opposite: true, categories: sensors };
-    	
-    	data = {
-    	    name: 'Availability', 
-            data: myData
+    	    if (((Number(i) + 1) % 50 == 0) || (i == this.nodes.length - 1)) {
+		// console.log(myData);
+		console.log(n);
+		settings[n].chart.height = calcHeight;
+		
+		settings[n].xAxis = { opposite: true, categories: sensors };
+		
+		data = {
+		    name: 'Availability', 
+		    data: myData
+		}
+		settings[n].series.push(data);
+			
+		$('#container' + n).highcharts(settings[n]);
+		console.log("Done" + i);
+		console.log(settings);
+		// new one
+		sensors = [];
+		myData = [];
+		n = Number(n) + 1;
+		settings[n] = jQuery.extend(true, {}, settingsOrig);	
+		calcHeight = 100;
+		
+		$(".panel-body form").append('<div class="panel-body" id="container' + n + '">');
+		
+	    }
         }
-        settings.series.push(data);
-    	
-    	// fill series
-    	/*
-    	{
-                name: 'Temperatures',
-                data: [
-                    [Date.UTC(1971,  5, 12), Date.UTC(1971,  6, 12)],
-                    [Date.UTC(1971,  5, 30), Date.UTC(1971,  12, 12)]
-                ]
-            }
-            */
-        
-        console.log("Done");
-        console.log(settings);
-        $('#container').highcharts(settings);
-        console.log("Done2");
-    
 
     }
     

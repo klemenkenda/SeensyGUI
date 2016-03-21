@@ -121,5 +121,28 @@
                 ]
             }
         ]
+    },
+    {
+        "title": "Row for histograms",        
+        "columns": [
+            {
+                "title": "Column 1",
+                "class": "col-md-12",
+                "charts": [
+                    {
+                        "title": "Wind angle historam",
+                        "endDate": "now",
+                        "timeSpan": "30",
+                        "series": [
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-windBearing",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            }                 
+                        ]
+                    }
+                ]
+            }
+        ]
     }
 ]
