@@ -1,0 +1,88 @@
+[    
+    {
+        "title": "Row for timeseries",        
+        "columns": [
+            {
+                "title": "Column 1",
+                "class": "col-md-12",
+                "charts": [
+                    {
+                        "title": "Wind angle historam",
+                        "endDate": "now",
+                        "timeSpan": "30",
+                        "series": [
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-windBearing",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            }                 
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Row for profiles",
+        "columns": [            
+            {
+                "title": "Column 1",
+                "class": "col-md-4",
+                "profiles": [
+                    {
+                        "title": "Wind angle historam - now",
+                        "endDate": "now",
+                        "timeSpan": "30",
+                        "series": [
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-windBearing",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            }                 
+                        ]
+                    }
+                ]
+            },
+            {
+                "title": "Column 2",
+                "class": "col-md-4",
+                "profiles": [
+                    {
+                        "title": "Wind angle historam - 1m ago",
+                        "endDate": "offset",
+                        "endDateOffsetType": "month",
+                        "endDateOffset": -1,
+                        "timeSpan": "30",
+                        "series": [
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-windBearing",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            }                 
+                        ]
+                    }
+                ]
+            },
+            {
+                "title": "Column 3",
+                "class": "col-md-4",
+                "profiles": [
+                    {
+                        "title": "Wind angle historam - 2m ago",
+                        "endDate": "offset",
+                        "endDateOffsetType": "month",
+                        "endDateOffset": -2,
+                        "timeSpan": "30",
+                        "series": [
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-windBearing",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            }                 
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

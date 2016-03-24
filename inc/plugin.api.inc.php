@@ -363,19 +363,65 @@ function exportAllAggregates($sensorid, $aggrname, $windowlen) {
 }
 
 //---------------------------------------------------------------------
-// FUNCTION: executeDataCleaning
-// Description: Executes script for Data Cleaning NRG4Cast D2.3
+// FUNCTION: getAlarms
+// Description: Gets watchdog alarms + checks master
 //---------------------------------------------------------------------
 
-function executeDataCleaning() {
-	$answer = shell_exec('cd cleaning && KalmanFilter.exe');
-	
-	$filename = "cleaning/output.csv";
-	$fp = fopen($filename, "r");
-	$contents = fread($fp, filesize($filename));
-	fclose($fp);
-	
-	return $contents;
+function getAlarms() {
+    global $swd;
+    $alarmCode = array("nothing", "warning", "alarm");
+    $alarms = array();
+    
+    $conn = new mysqli($swd["mysql_host"], $swd["mysql_user"], $swd["mysql_pass"], $swd["mysql_dbase"]);
+    
+    // check master ping
+    $sql = "SELECT *, (NOW() - ping.ts) as diff, UNIX_TIMESTAMP(ping.ts) AS unixts FROM source, ping WHERE source.id = pi_source";
+    
+    $result = $conn->query($sql);
+    echo $conn->error;
+    
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $secs = $row["diff"];
+        $config = json_decode($row["so_config"]);
+        $alarmT = $config->general->alarmTreshold;
+        $warningT = $config->general->warningTreshold;
+        
+        $alarm = 0;
+        if ($row["diff"] > $warningT) $alarm = 1;
+        if ($row["diff"] > $alarmT) $alarm = 2;
+        
+        $masterAlarm["Type"] = "masterping";
+        $masterAlarm["Sensor"] = "SWatchDog ping";
+        $masterAlarm["AlarmID"] = $alarm;
+        $masterAlarm["AlarmIDName"] = $alarmCode[$alarm];
+        $masterAlarm["LastTs"] = $row["unixts"] . "000";
+    };
+    
+    $alarms["masterping"] = $masterAlarm;    
+    
+    // check all last alarms records in the DB
+    $sql = "SELECT m1.* FROM alarms m1 LEFT JOIN alarms m2 ON (m1.al_sourceid = m2.al_sourceid AND m1.id < m2.id) WHERE m2.id IS NULL";
+    
+    $result = $conn->query($sql);
+    echo $conn->error;
+    $ssalarms = array();
+    
+    while ($row = $result->fetch_assoc()) {
+        $recAlarmsJSON = $row["al_description"];
+        $recAlarms = json_decode($recAlarmsJSON, true);
+        foreach($recAlarms as $recAlarm) {
+            // $alarms = array_merge($alarms, $recAlarm);
+            array_push($ssalarms, $recAlarm);
+        }
+    }
+    
+    $alarms["seensysensors"] = $ssalarms;
+    
+    $conn->close();
+    
+    // connect to SWatchDog DB
+	return json_encode($alarms);
 }
 
 //---------------------------------------------------------------------
@@ -506,19 +552,10 @@ function pluginAPIGET() {
 		  }
 		  break;	
 		  
-		// DATA CLEANING SPECIAL FUNCTIONS
-		case "export-data-cleaning":
-			$HTML = exportDataCleaning();
-			break;		
-		case "save-data-cleaning":
-			$HTML = "OK";
-			break;
-		case "reset-data-cleaning":
-			$HTML = "OK";
-			break;
-		case "execute-data-cleaning":
-			$HTML = executeDataCleaning();
-			break;
+		// ALARMS & WARNINGS
+        case "get-alarms":
+            $HTML = getAlarms();
+            break;
 		
 		// DEFAULT RESPONSE
 		default:

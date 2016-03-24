@@ -7,11 +7,17 @@
 // HISTORY:
 //---------------------------------------------------------------------
 
-// mysql config -------------------------------------------------------
+// mysql config for Web -----------------------------------------------
 $mysql_user = "root";
 $mysql_pass = "";
 $mysql_host = "localhost";
 $mysql_dbase = "seensy";
+
+// mysql config for SWatchDog -----------------------------------------
+$swd["mysql_user"] = "root";
+$swd["mysql_pass"] = "";
+$swd["mysql_host"] = "localhost";
+$swd["mysql_dbase"] = "swatchdog";
 
 // mail config --------------------------------------------------------
 $webmaster_mail = "klemen.kenda@ijs.si";
