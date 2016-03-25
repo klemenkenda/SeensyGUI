@@ -88,6 +88,22 @@ function loadedAlarms(data) {
         
     }
     
+    // ping check in components
+    var pci = alarms.pingcheckin;
+    
+    for(var i in pci) {
+        var pcialarm = pci[i];
+        var componentName = pcialarm.Name.replace('ping', '');        
+        
+        console.log(pcialarm);
+        
+        $("#container").append('<div class="alert ' + styleA[pcialarm.AlarmID]  + ' fade in m-b-15">' +
+				           '    <strong>' + titleA[pcialarm.AlarmID] + '</strong>' +
+				           '    ' + componentName + ' is ' + notA[pcialarm.AlarmID] + 'running! (last component check-in: ' + timeDiffAgoFromMs(0, pcialarm.DiffTs) + ')' +
+				           '    <span class="close" data-dismiss="alert">×</span>' +
+				           '</div>');
+        
+    }
     
     // Seensy Sensors
     var ss = alarms.seensysensors;

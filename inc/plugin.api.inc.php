@@ -443,6 +443,29 @@ function getAlarms() {
     $alarms["ping"] = $palarms;
     
     
+    // check ping checki in last alarms record in the DB     
+    $sql = "SELECT m1.*,  UNIX_TIMESTAMP(m1.ts) AS unixts, (NOW() - ping.ts) AS unixdiffts FROM alarms m1 LEFT JOIN alarms m2 ON (m1.al_sourceid = m2.al_sourceid AND m1.id < m2.id), source, type, ping WHERE m2.id IS NULL AND m1.al_sourceid = source.id AND source.so_typeid = type.id AND type.id = 4 AND pi_source = source.id";
+    
+    $result = $conn->query($sql);
+    echo $conn->error;
+    $palarms = array();
+    
+    while ($row = $result->fetch_assoc()) {
+        $recAlarmsJSON = $row["al_description"];
+        $recAlarms = json_decode($recAlarmsJSON, true);
+        if ($recAlarms == array()) {
+            $recAlarms["Type"] = "ping";
+            $recAlarms["AlarmID"] = 0;
+            $recAlarms["AlarmIDName"] = $alarmCode[0];
+        }
+        $recAlarms["Name"] = $row["al_name"];
+        $recAlarms["LastTs"] = $row["unixts"] . "000";
+        $recAlarms["DiffTs"] = $row["unixdiffts"] . "000";
+        array_push($palarms, $recAlarms);        
+    }
+    
+    $alarms["pingcheckin"] = $palarms;
+    
     $conn->close();
     
     // connect to SWatchDog DB
