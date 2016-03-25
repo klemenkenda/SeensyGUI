@@ -5,9 +5,7 @@ $.ajax({
     success: loadedAlarms
 });
 
-function timeAgoFromMs(ts) {
-    var tm = new Date;
-    var now = tm.getTime();
+function timeDiffAgoFromMs(ts, now) {
     
     var diff = now - ts;
     var unit = "ms";
@@ -47,6 +45,13 @@ function timeAgoFromMs(ts) {
     return diff + unit + " ago";
 }
 
+function timeAgoFromMs(ts) {
+    var tm = new Date;
+    var now = tm.getTime();
+    
+    return timeDiffAgoFromMs(ts, now);
+}
+
 function loadedAlarms(data) {
     var alarms = JSON.parse(data);
     
@@ -57,13 +62,34 @@ function loadedAlarms(data) {
     beforeS = (tm.getTime() - mp.LastTs) / 1000;    
         
     var styleA = [ 'alert-success', 'alert-warning', 'alert-danger' ];
+    var notA = [ '', 'not ', 'not '];
+    var titleA = [ 'OK!', 'Warning!', 'Alarm!'];    
     
     $("#container").append('<div class="alert ' + styleA[mp.AlarmID]  + ' fade in m-b-15">' +
-				           '    <strong>OK!</strong>' +
-				           '    Seensy WatchDog is running!' +
+				           '    <strong>' + titleA[mp.AlarmID] + '</strong>' +
+				           '    Seensy WatchDog is ' + notA[mp.AlarmID] + 'running! (last check: ' + timeDiffAgoFromMs(0, mp.DiffTs) + ')' +
 				           '    <span class="close" data-dismiss="alert">×</span>' +
 				           '</div>');
     
+    // ping components
+    var pi = alarms.ping;
+    
+    for(var i in pi) {
+        var pialarm = pi[i];
+        var componentName = pialarm.Name.replace('ping', '');        
+        
+        console.log(pialarm);
+        
+        $("#container").append('<div class="alert ' + styleA[pialarm.AlarmID]  + ' fade in m-b-15">' +
+				           '    <strong>' + titleA[pialarm.AlarmID] + '</strong>' +
+				           '    ' + componentName + ' is ' + notA[pialarm.AlarmID] + 'running! (last check: ' + timeDiffAgoFromMs(0, pialarm.DiffTs) + ')' +
+				           '    <span class="close" data-dismiss="alert">×</span>' +
+				           '</div>');
+        
+    }
+    
+    
+    // Seensy Sensors
     var ss = alarms.seensysensors;
     
     var html = "<h3>Seensy Sensor streams</h3>";

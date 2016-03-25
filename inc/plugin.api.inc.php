@@ -375,7 +375,7 @@ function getAlarms() {
     $conn = new mysqli($swd["mysql_host"], $swd["mysql_user"], $swd["mysql_pass"], $swd["mysql_dbase"]);
     
     // check master ping
-    $sql = "SELECT *, (NOW() - ping.ts) as diff, UNIX_TIMESTAMP(ping.ts) AS unixts FROM source, ping WHERE source.id = pi_source";
+    $sql = "SELECT *, (NOW() - ping.ts) as diff, UNIX_TIMESTAMP(ping.ts) AS unixts, (NOW() - ping.ts) AS unixdiffts FROM source, ping WHERE source.id = pi_source";
     
     $result = $conn->query($sql);
     echo $conn->error;
@@ -388,20 +388,21 @@ function getAlarms() {
         $warningT = $config->general->warningTreshold;
         
         $alarm = 0;
-        if ($row["diff"] > $warningT) $alarm = 1;
-        if ($row["diff"] > $alarmT) $alarm = 2;
+        if ($row["diff"] > $warningT / 1000) $alarm = 1;
+        if ($row["diff"] > $alarmT / 1000) $alarm = 2;
         
         $masterAlarm["Type"] = "masterping";
         $masterAlarm["Sensor"] = "SWatchDog ping";
         $masterAlarm["AlarmID"] = $alarm;
         $masterAlarm["AlarmIDName"] = $alarmCode[$alarm];
         $masterAlarm["LastTs"] = $row["unixts"] . "000";
+        $masterAlarm["DiffTs"] = $row["unixdiffts"] . "000";
     };
     
     $alarms["masterping"] = $masterAlarm;    
     
-    // check all last alarms records in the DB
-    $sql = "SELECT m1.* FROM alarms m1 LEFT JOIN alarms m2 ON (m1.al_sourceid = m2.al_sourceid AND m1.id < m2.id) WHERE m2.id IS NULL";
+    // check seensysensors last alarms records in the DB
+    $sql = "SELECT m1.* FROM alarms m1 LEFT JOIN alarms m2 ON (m1.al_sourceid = m2.al_sourceid AND m1.id < m2.id), source, type WHERE m2.id IS NULL AND m1.al_sourceid = source.id AND source.so_typeid = type.id AND type.id = 2";
     
     $result = $conn->query($sql);
     echo $conn->error;
@@ -417,6 +418,30 @@ function getAlarms() {
     }
     
     $alarms["seensysensors"] = $ssalarms;
+    
+    // check ping last alarms records in the DB
+    $sql = "SELECT m1.*,  UNIX_TIMESTAMP(m1.ts) AS unixts, (NOW() - source.so_last) AS unixdiffts FROM alarms m1 LEFT JOIN alarms m2 ON (m1.al_sourceid = m2.al_sourceid AND m1.id < m2.id), source, type WHERE m2.id IS NULL AND m1.al_sourceid = source.id AND source.so_typeid = type.id AND type.id = 1";
+    
+    $result = $conn->query($sql);
+    echo $conn->error;
+    $palarms = array();
+    
+    while ($row = $result->fetch_assoc()) {
+        $recAlarmsJSON = $row["al_description"];
+        $recAlarms = json_decode($recAlarmsJSON, true);
+        if ($recAlarms == array()) {
+            $recAlarms["Type"] = "ping";
+            $recAlarms["AlarmID"] = 0;
+            $recAlarms["AlarmIDName"] = $alarmCode[0];
+        }
+        $recAlarms["Name"] = $row["al_name"];
+        $recAlarms["LastTs"] = $row["unixts"] . "000";
+        $recAlarms["DiffTs"] = $row["unixdiffts"] . "000";
+        array_push($palarms, $recAlarms);        
+    }
+    
+    $alarms["ping"] = $palarms;
+    
     
     $conn->close();
     
