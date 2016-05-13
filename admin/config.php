@@ -129,6 +129,31 @@ del_key = flat_text
 lst_key = simple_text
 comment = Use MD5 encoded password.
     
+###############################
+# BRANCHES
+###############################
+[form: branches]
+<part: main>
+name = Branches
+formtype = auto
+listorder = id
+<field: br_name>
+name = Name
+type = text_field
+del_key = flat_text
+lst_key = simple_text
+<field: br_pid>
+name = Pilot
+type = dropdown_list
+data = select id,pi_name from pilots order by pi_name;
+del_key = flat_text
+lst_key = single_value_list
+<field: br_weight>
+name = Weight
+type = text_field
+lst_key = simple_text
+del_key = flat_text
+start = 50
     
 ###############################
 # VISUALIZATIONS
@@ -148,10 +173,11 @@ name = Subtitle
 type = text_field
 del_key = flat_text
 lst_key = simple_text
-<field: vi_pid>
-name = Pilot
+<field: vi_bid>
+name = Pilot / branch
 type = dropdown_list
-data = select id,pi_name from pilots order by pi_name;
+data = SELECT branches.id AS id,CONCAT(pi_name, ' ', br_name) FROM pilots, branches ORDER BY pi_name, br_name;
+    # data = select id,pi_name from pilots order by pi_name;
 del_key = flat_text
 lst_key = single_value_list
 <field: vi_config>

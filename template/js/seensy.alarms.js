@@ -96,6 +96,9 @@ function loadedAlarms(data) {
         var componentName = pcialarm.Name.replace('ping', '');        
         
         console.log(pcialarm);
+        console.log(titleA[pcialarm.AlarmID]);
+        console.log(titleA);
+        console.log(pcialarm.AlarmID);
         
         $("#container").append('<div class="alert ' + styleA[pcialarm.AlarmID]  + ' fade in m-b-15">' +
 				           '    <strong>' + titleA[pcialarm.AlarmID] + '</strong>' +

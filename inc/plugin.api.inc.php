@@ -453,6 +453,8 @@ function getAlarms() {
     while ($row = $result->fetch_assoc()) {
         $recAlarmsJSON = $row["al_description"];
         $recAlarms = json_decode($recAlarmsJSON, true);
+        // override when JSON gets parsed into an array
+        if (isset($recAlarms[0])) $recAlarms = $recAlarms[0];
         if ($recAlarms == array()) {
             $recAlarms["Type"] = "ping";
             $recAlarms["AlarmID"] = 0;
@@ -465,6 +467,8 @@ function getAlarms() {
     }
     
     $alarms["pingcheckin"] = $palarms;
+    
+    // print_r($recAlarms);
     
     $conn->close();
     

@@ -1,0 +1,133 @@
+[    
+     {
+        "title": "Row for info boxes",        
+        "columns": [
+            {
+                "title": "Column 1",
+                "class": "col-md-4",
+                "infoboxes": [
+                    {
+                        "title": "Indoor temperature",
+                        "color": "blue",
+                        "icon": "fa fa-line-chart",                           
+                        "value": {
+                            "decimals": 1,
+                            "type": "tsValue",                            
+                            "timeSpan": "3",    
+                            "endDate": "now",
+                            "series": [
+                                {
+                                    "sensorId": "Office1-Temperature",
+                                    "aggregate": "raw", 
+                                    "window": "raw"
+                                }
+                            ],
+                            "uom": "&deg;C"
+                        },
+                        "status": {
+                            "value": "More about weather",
+                            "link": "http://dashboard.seensy.me/en/predefined/1/climate-conditions-of-examination-area"
+                        }
+                    }
+                ]
+            },
+            {
+                "title": "Column 1",
+                "class": "col-md-4",
+                "infoboxes": [
+                    {
+                        "title": "Outside temperature",
+                        "color": "green",
+                        "icon": "fa fa-line-chart",                           
+                        "value": {
+                            "decimals": 1,
+                            "type": "tsValue",                            
+                            "timeSpan": "3",    
+                            "endDate": "now",
+                            "series": [
+                                {
+                                    "sensorId": "FIO-Vienna-HTC-FIO-temperature",
+                                    "aggregate": "raw", 
+                                    "window": "raw"
+                                }
+                            ],
+                            "uom": "&deg;C"
+                        },
+                        "status": {
+                            "value": "More about weather",
+                            "link": "http://dashboard.seensy.me/en/predefined/1/climate-conditions-of-examination-area"
+                        }
+                    }
+                ]
+            },
+            {
+                "title": "Column 3",
+                "class": "col-md-4",
+                "infoboxes": [
+                    {                       
+                        "title": "Hours (T > 22 &deg;C)",
+                        "color": "red",
+                        "icon": "fa fa-flask",
+                        "value": {
+                            "type": "cumulativeThresholdOther",                  
+                            "timeSpan": "30",    
+                            "endDate": "now",
+                            "decimals": 2,
+                            "series": [
+                                {
+                                    "sensorId": "Office1-Temperature",
+                                    "aggregate": "raw", 
+                                    "window": "raw"
+                                }
+                            ],
+                            "threshold": 22,  
+                            "value": 1,
+                            "uom": "h"
+                        },
+                        "status": {
+                            "value": "&nbsp;", 
+                            "decimals": 2,
+                            "uom": "EUR",
+                            "formula": "0.1 * x",
+                            "link": "#"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Row for timeseries",        
+        "columns": [
+            {
+                "title": "Column 1",
+                "class": "col-md-12",
+                "charts": [
+                    {
+                        "title": "Office & outdoor - temperature vs. presence",
+                        "endDate": "now",
+                        "timeSpan": "30",
+                        "series": [
+                            {
+                                "sensorId": "Office1-Temperature",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            },
+                            {
+                                "sensorId": "FIO-Vienna-HTC-FIO-temperature",
+                                "aggregate": "raw",
+                                "window": "raw",
+                                "UoM": "Celsius"
+                            },
+                            {
+                                "sensorId": "Office1-Occupancy-Tripped",
+                                "aggregate": "raw",
+                                "window": "raw",                                
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

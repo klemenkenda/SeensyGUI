@@ -202,6 +202,8 @@ function PredefinedVisualization(systemNodes) {
     this.init = function(config) {
         this.config = config;
         
+        console.log("Config"); console.log(this.config);
+        
         // traverse config structure, create rows, columns, charts and load the data to the appropriate chart
         $.each(this.config, function(rid, row) {
             // create row
@@ -282,8 +284,8 @@ function PredefinedVisualization(systemNodes) {
                         title = infobox["title"];
                         color = infobox["color"];
                         icon = infobox["icon"];                        
-                        status = infobox["status"];
-                        link = infobox["link"];
+                        status = infobox["status"].value;                        
+                        link = infobox["status"].link;
                         value = "N/A";
                                                 
                         
@@ -305,7 +307,7 @@ function PredefinedVisualization(systemNodes) {
                             var startDate = new Date();
                             startDate.setDate(endDate.getDate() - infobox["value"]["timeSpan"]);      
                             
-                            $.each(infobox["value"]["series"], function(isid, series) {
+                            $.each(infobox["value"]["series"], function(isid, series) {                                
                                 pv.infoBoxes[pv.infoBoxNumber - 1].addSeries(series["sensorId"], startDate.toYMD(), endDate.toYMD(), series["aggregate"], series["window"]);    
                             });                            
                         }                                                
@@ -420,6 +422,8 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
         data = JSON.parse(data);
         this.series[this.series.length] = data;
         
+        // TODO: vrstni red seriesov je pomemben - včasih se prej naloada drugi, kakor prvi (!)
+        
         // is all the data loaded?
         if (this.series.length == this.config.value.series.length) {
             switch (this.config.value.type) {
@@ -442,6 +446,117 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
                     bestValue = this.transform(bestValue, this.systemNodes.sensorTable[this.config["value"]["series"][0]["sensorId"]]["UoM"], this.config.value )
                                         
                     $("#" + containerId + " > .stats-info p").html(bestValue);
+                    break;
+                case "cumulativeThresholdSec":                    
+                    var pTsOld = 0;
+                    var threshold = this.config.value.threshold;                    
+                    var cumulative = 0.0;
+                    var secondaryIndex = 0; // index in secondary timeseries
+                    
+                    // secondary series
+                    var secondary = this.series[0];
+                    // follow master series
+                    $.each(this.series[1], function(sid, point) {
+                        pTs = new Date(point.Timestamp);
+                        if (pTsOld != 0) {
+                            var interval = (pTs - pTsOld) / 1000 / 60 / 60;
+                            var value = point.Val;
+                            
+                            if (value > threshold) {
+                                // threshold is on (ie. lights are on), let's check secondary value (ie. presence)
+                                // traverse secondary timeseries until timestamp >= of the current, then use the point
+                                // closest to current timestamp
+                                while ((secondaryIndex < (secondary.length - 1)) && (new Date(secondary[secondaryIndex].Timestamp) < pTs)) {
+                                    secondaryIndex++;
+                                }
+                                var date1 = new Date(secondary[secondaryIndex].Timestamp);
+                                if (secondaryIndex > 0 ) var date2 = new Date(secondary[secondaryIndex - 1].Timestamp);
+                                    else var date2 = date1;
+                                
+                                if (Math.abs(date1 - pTs) < Math.abs(date2 - pTs)) theIndex = secondaryIndex; else theIndex = secondaryIndex - 1;
+                                if (theIndex < 0) theIndex = 0;
+                                
+                                if (secondary[theIndex].Val == 0) cumulative += interval * value;                                                        
+                            }
+                        }
+                        pTsOld = pTs;
+                    });
+                    ctValue = this.transform(cumulative, this.systemNodes.sensorTable[this.config["value"]["series"][0]["sensorId"]]["UoM"], this.config.value);
+                    $("#" + containerId + " > .stats-info p").html(ctValue);
+                    
+                    // manage status
+                    if (this.config.status.value == "") {
+                        statusValue = this.transform(cumulative, "", this.config.status);
+                        $("#" + containerId + " > .stats-link a").html(statusValue);
+                    }                   
+                    break;
+                case "cumulativeThresholdOther":                    
+                    var pTsOld = 0;
+                    var threshold = this.config.value.threshold;
+                    var mapValue = this.config.value.value; 
+                    var cumulative = 0.0;
+                    $.each(this.series[0], function(sid, point) {
+                        pTs = new Date(point.Timestamp);
+                        if (pTsOld != 0) {
+                            var interval = (pTs - pTsOld) / 1000 / 60 / 60;
+                            var value = point.Val;
+                            
+                            if (value > threshold) cumulative += interval * mapValue;                                                        
+                        }
+                        pTsOld = pTs;
+                    });
+                    ctValue = this.transform(cumulative, this.systemNodes.sensorTable[this.config["value"]["series"][0]["sensorId"]]["UoM"], this.config.value);
+                    $("#" + containerId + " > .stats-info p").html(ctValue);
+                    
+                    // manage status
+                    if (this.config.status.value == "") {
+                        statusValue = this.transform(cumulative, "", this.config.status);
+                        $("#" + containerId + " > .stats-link a").html(statusValue);
+                    }                    
+                    break;
+                case "cumulativeThresholdOtherSec":                    
+                    var pTsOld = 0;
+                    var threshold = this.config.value.threshold;
+                    var mapValue = this.config.value.value; 
+                    var cumulative = 0.0;
+                    var secondaryIndex = 0; // index in secondary timeseries
+                    
+                    // secondary series
+                    var secondary = this.series[0];
+                    // follow master series
+                    $.each(this.series[1], function(sid, point) {
+                        pTs = new Date(point.Timestamp);
+                        if (pTsOld != 0) {
+                            var interval = (pTs - pTsOld) / 1000 / 60 / 60;
+                            var value = point.Val;
+                            
+                            if (value > threshold) {
+                                // threshold is on (ie. lights are on), let's check secondary value (ie. presence)
+                                // traverse secondary timeseries until timestamp >= of the current, then use the point
+                                // closest to current timestamp
+                                while ((secondaryIndex < (secondary.length - 1)) && (new Date(secondary[secondaryIndex].Timestamp) < pTs)) {
+                                    secondaryIndex++;
+                                }
+                                var date1 = new Date(secondary[secondaryIndex].Timestamp);
+                                if (secondaryIndex > 0 ) var date2 = new Date(secondary[secondaryIndex - 1].Timestamp);
+                                    else var date2 = date1;
+                                
+                                if (Math.abs(date1 - pTs) < Math.abs(date2 - pTs)) theIndex = secondaryIndex; else theIndex = secondaryIndex - 1;
+                                if (theIndex < 0) theIndex = 0;
+                                
+                                if (secondary[theIndex].Val == 0) cumulative += interval * mapValue;                                                        
+                            }
+                        }
+                        pTsOld = pTs;
+                    });
+                    ctValue = this.transform(cumulative, this.systemNodes.sensorTable[this.config["value"]["series"][0]["sensorId"]]["UoM"], this.config.value);
+                    $("#" + containerId + " > .stats-info p").html(ctValue);
+                    
+                    // manage status
+                    if (this.config.status.value == "") {
+                        statusValue = this.transform(cumulative, "", this.config.status);
+                        $("#" + containerId + " > .stats-link a").html(statusValue);
+                    }                    
                     break;
                 default: console.log("No method for extracting infobox value!");
             }

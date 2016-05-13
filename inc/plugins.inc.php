@@ -164,13 +164,23 @@ function subMenu($page, $level = 2) {
 }
 
 function subMenuVisualizations() {
-	$SQL = "SELECT * FROM visualizations ORDER BY vi_weight";
+	$SQL = "SELECT * FROM branches, visualizations WHERE vi_bid = branches.id AND br_name <> 'Main' ORDER BY br_weight, vi_weight";
 	$result = mysql_query($SQL);
 	$HTML = "";
+	
+	$branch = "xxx";
+	$i = 0;
 	while ($line = mysql_fetch_array($result)) {
+		if ($branch != $line["br_name"]) {
+			$branch = $line["br_name"];
+			if ($i != 0) $HTML .= "</ul></li>";
+			$HTML .= "<li class=\"has-sub\"><a href=\"javascript:;\"><b class=\"caret pull-right\"></b>$branch</a><ul class=\"sub-menu\">";
+		}
 		$link = "/en/predefined/" . $line["id"] . "/" . getNewsLink($line["vi_name"]);
 		$HTML .= "<li><a href=\"$link\">" . $line["vi_name"] . "</a></li>";
+		$i++;
 	}
+	$HTML .= "</ul></li>";
 	
 	return $HTML;
 }

@@ -250,3 +250,5 @@ http://www.geopedia.si/Geopedia_en.html#T768_x415227_y98294.5_s15_b5
         ]
     }
 ]',vi_weight='50' where id=1
+2016.04.26 20:09:52 -- SQL: insert into visualizations (id ,vi_name,vi_subtitle,vi_pid,vi_config,vi_weight) values(0 ,'','','1','','50')
+2016.04.26 20:09:52 --    - Unknown column 'vi_pid' in 'field list'

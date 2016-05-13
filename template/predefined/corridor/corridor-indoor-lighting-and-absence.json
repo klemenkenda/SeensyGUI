@@ -1,0 +1,108 @@
+[    
+     {
+        "title": "Row for info boxes",        
+        "columns": [
+            {
+                "title": "Column 1",
+                "class": "col-md-6",
+                "infoboxes": [
+                    {
+                        "title": "Usage for lighting (30 days)",
+                        "color": "green",
+                        "icon": "fa fa-line-chart",                           
+                        "value": {
+                            "decimals": 2,
+                            "type": "cumulativeThresholdOther",                            
+                            "timeSpan": "30",    
+                            "endDate": "now",
+                            "series": [
+                                {
+                                    "sensorId": "Corridor3-Light",
+                                    "aggregate": "raw", 
+                                    "window": "raw"
+                                }
+                            ],
+                            "threshold": 500,
+                            "value": 0.288,
+                            "uom": "kWh"
+                        },
+                        "status": {
+                            "value": "&nbsp;",
+                            "formula": "0.10 * x",
+                            "decimals": 2,
+                            "uom": "EUR",
+                            "link": "#"
+                        }
+                    }
+                ]
+            },
+            {
+                "title": "Column 2",
+                "class": "col-md-6",
+                "infoboxes": [
+                    {                       
+                        "title": "Direct lighting inefficiency (30 days)",
+                        "color": "red",
+                        "icon": "fa fa-flask",
+                        "value": {
+                            "type": "cumulativeThresholdOtherSec",                  
+                            "timeSpan": "30",    
+                            "endDate": "now",
+                            "decimals": 2,
+                            "series": [
+                                {
+                                    "sensorId": "Corridor3-Occupancy-Tripped",
+                                    "aggregate": "raw", 
+                                    "window": "raw"
+                                },
+                                {
+                                    "sensorId": "Corridor3-Light",
+                                    "aggregate": "raw", 
+                                    "window": "raw"
+                                }
+                            ],
+                            "threshold": 500,
+                            "value": 0.288,
+                            "uom": "kWh"
+                        },
+                        "status": {
+                            "value": "&nbsp;",
+                            "formula": "0.10 * x",
+                            "decimals": 2,
+                            "uom": "EUR",
+                            "link": "#"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Row for timeseries",        
+        "columns": [
+            {
+                "title": "Column 1",
+                "class": "col-md-12",
+                "charts": [
+                    {
+                        "title": "Corridor 1 - lighting vs. absence",
+                        "endDate": "now",
+                        "timeSpan": "30",
+                        "series": [
+                            {
+                                "sensorId": "Corridor3-Occupancy-Tripped",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            },
+                            {
+                                "sensorId": "Corridor3-Light",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            },
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

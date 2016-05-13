@@ -1,0 +1,118 @@
+[    
+     {
+        "title": "Row for info boxes",        
+        "columns": [            
+            {
+                "title": "Column 1",
+                "class": "col-md-6",
+                "infoboxes": [
+                    {                       
+                        "title": "Direct PC inefficiency (30 days)",
+                        "color": "red",
+                        "icon": "fa fa-flask",
+                        "value": {
+                            "type": "cumulativeThresholdSec",                  
+                            "timeSpan": "30",    
+                            "endDate": "now",
+                            "decimals": 2,
+                            "series": [
+                                {
+                                    "sensorId": "MeetingRoom1-Occupancy-Tripped",
+                                    "aggregate": "raw", 
+                                    "window": "raw"
+                                },
+                                {
+                                    "sensorId": "MeetingRoom1-Outlet1-PC-Watts",
+                                    "aggregate": "raw", 
+                                    "window": "raw"
+                                }
+                            ],
+                            "threshold": 1,    
+                            "formula": "0.001 * x",
+                            "uom": "kWh"
+                        },
+                        "status": {
+                            "value": "&nbsp;",
+                            "formula": "0.001 * 0.10 * x",
+                            "decimals": 2,
+                            "uom": "EUR",
+                            "link": "#"
+                        }
+                    }
+                ]
+            },
+            {
+                "title": "Column 2",
+                "class": "col-md-6",
+                "infoboxes": [
+                    {                       
+                        "title": "Direct monitor inefficiency (30 days)",
+                        "color": "red",
+                        "icon": "fa fa-flask",
+                        "value": {
+                            "type": "cumulativeThresholdSec",                  
+                            "timeSpan": "30",    
+                            "endDate": "now",
+                            "decimals": 2,
+                            "series": [
+                                {
+                                    "sensorId": "MeetingRoom1-Occupancy-Tripped",
+                                    "aggregate": "raw", 
+                                    "window": "raw"
+                                },
+                                {
+                                    "sensorId": "MeetingRoom1-Outlet2-Monitor-Watts",
+                                    "aggregate": "raw", 
+                                    "window": "raw"
+                                }
+                            ],
+                            "threshold": 1,
+                            "formula": "0.001 * x",
+                            "uom": "kWh"
+                        },
+                        "status": {
+                            "value": "&nbsp;",
+                            "formula": "0.001 * 0.10 * x",
+                            "decimals": 2,
+                            "uom": "EUR",
+                            "link": "#"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Row for timeseries",        
+        "columns": [
+            {
+                "title": "Column 1",
+                "class": "col-md-12",
+                "charts": [
+                    {
+                        "title": "Meeting Room - PC & monitor vs. presence",
+                        "endDate": "now",
+                        "timeSpan": "30",
+                        "series": [
+                            {
+                                "sensorId": "MeetingRoom1-Occupancy-Tripped",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            },
+                            {
+                                "sensorId": "MeetingRoom1-Outlet2-Monitor-Watts",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            },
+                            {
+                                "sensorId": "MeetingRoom1-Outlet1-PC-Watts",
+                                "aggregate": "raw",
+                                "window": "raw"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
