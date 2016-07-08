@@ -9,9 +9,32 @@ $.ajax({
     success: loadedNodes
 });
 
+function searchStringInArray (str, strArray) {
+    for (var j=0; j<strArray.length; j++) {
+        if (str.match(strArray[j])) return j;
+        // if (strArray[j].match(str)) return j;
+    }
+    return -1;
+}
+
+function filterNodes(data) {
+    console.log(data);
+    var filtered = [];
+    
+    var filter = [ 'FIO-Kne', 'FIO-Krom', 'FIO-Raz', 'virtual', 'FeaturesNode', 'High Tech Campus-BUILDING-FeaturesObject.2', 'HTC-3', 'HTC-2', 'HTC-0', 'HTC-1', 'Office-' ];
+    
+    for (i in data) {
+        var nodeName = data[i].Name;
+        console.log(nodeName);
+        if (searchStringInArray(nodeName, filter) == -1) filtered.push(data[i]);
+    }
+    
+    return filtered;
+}
+
 function loadedNodes(data) {
     //saving nodes ...
-    myAvailabilityChart.nodes = JSON.parse(data);
+    myAvailabilityChart.nodes = filterNodes(JSON.parse(data));    
     myAvailabilityChart.draw();
 }
 
@@ -56,7 +79,7 @@ function AvailabilityChart() {
                     dataLabels: {
                         enabled: false,
                         formatter: function () {
-                            return this.y + '°C';
+                            return this.y + 'Â°C';
                         }
                     }
                 }
@@ -89,7 +112,7 @@ function AvailabilityChart() {
 	    }
     	  
     	
-    	    if (((Number(i) + 1) % 50 == 0) || (i == this.nodes.length - 1)) {
+    	    if (((Number(i) + 1) % 200 == 0) || (i == this.nodes.length - 1)) {
 		// console.log(myData);
 		console.log(n);
 		settings[n].chart.height = calcHeight;

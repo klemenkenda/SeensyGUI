@@ -1,3 +1,34 @@
+// HACKS
+(function() {
+    Date.prototype.toYMD = Date_toYMD;
+    function Date_toYMD() {
+        var year, month, day;
+        year = String(this.getFullYear());
+        month = String(this.getMonth() + 1);
+        if (month.length == 1) {
+            month = "0" + month;
+        }
+        day = String(this.getDate());
+        if (day.length == 1) {
+            day = "0" + day;
+        }
+        return year + "-" + month + "-" + day;
+    }
+
+    Date.createFromMysql = function (mysql_string) {
+        var t, result = null;
+
+        if (typeof mysql_string === 'string') {
+            t = mysql_string.split(/[- :]/);
+
+            //when t[3], t[4] and t[5] are missing they defaults to zero
+            result = new Date(t[0], t[1] - 1, t[2], t[3] || 0, t[4] || 0, t[5] || 0);
+        }
+
+        return result;
+    }
+})();
+
 $('#loading1').text('Loading available sensors ...');
 
 /*
@@ -12,9 +43,20 @@ $(function () {
     //init-ing and setting a few starting variables
     $.fn.datepicker.defaults.format = "yyyy-mm-dd";
     $('#datepicker').datepicker({
+        // inputs: {},
+        /*
         forceParse: false,
-        autoclose: true
+        autoclose: true,
+        weekStart: 1,
+        keyboardNavigation: false,
+        assumeNearbyYear: true,
+        immediateUpdates: true
+        */
     });
+    
+    // $("#end").keypress(function(event) {event.preventDefault();});
+    
+    
     chartNumber = 1;
     myChart = [new highChart("container1")];
     myNodes = [];
@@ -89,7 +131,7 @@ function loadedSensorsFromNodes() {
     updateSensors(mySensors);
 }
 
-function updateDate() {
+function updateDate() {        
     if (myChart[myChart.length - 1].chart.series.length > 0) {
         updateDate1();
         return;
@@ -122,6 +164,7 @@ function updateDate() {
     if (found) {
         namesToLocations[dataTyp] = { "fst": counter, "snd": counter2 };
     }
+    console.log($("#end"));
 }
 
 function updateDate1() {
@@ -146,7 +189,7 @@ function updateDate1() {
     }
     endDate = myNodes[counter].Sensors[counter2].EndDate.split("-");
     startDate = myNodes[counter].Sensors[counter2].StartDate.split("-");
-    endDate1 = $('#end').val();
+    endDate1 = $('#end').val();    
     if (compareDates($('#start').val(), myNodes[counter].Sensors[counter2].StartDate))
     {
         if (compareDates(endDate1, myNodes[counter].Sensors[counter2].StartDate)) {
@@ -263,6 +306,13 @@ function highChart(container) {
         this.timeInterval = correctTimeInterval($('#time-interval option:selected').val());
         this.dateStart = $('#start').val();
         this.dateEnd = $('#end').val();
+        
+        // due to QMiner way of processing dates, we need to add 1 day to a current date
+        var tempDate = Date.createFromMysql(this.dateEnd);
+        tempDate.setDate(tempDate.getDate() + 1);
+        this.dateEnd = tempDate.toYMD();
+        
+        
         this.aggregateType = $('#aggregate-type option:selected').val();
         if (this.aggregateType) this.aggregateType = this.aggregateType.toLowerCase();
         this.dataType = $('#ch-sensor option:selected').val();

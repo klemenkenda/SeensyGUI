@@ -1,0 +1,51 @@
+.widget-stats-small {
+    margin-bottom: 3px !important;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.widget-stats-small .stats-info h4,
+.widget-stats-small .stats-info p,
+.widget-stats-small .stats-info .stats-link {
+    display: inline;
+}
+
+.widget-stats-small .stats-link a {
+    display: inline !important;
+    margin: 10px !important;
+    padding: 0px !important;
+    background: none !important;    
+    text-align: right;
+    color: #ddd;
+    font-weight: 300;
+    text-decoration: none;
+}
+
+.widget-stats-small .stats-info p {
+    font-size: 12px;
+    font-weight: 300;
+    margin-bottom: 0;
+}
+
+.widget-stats-small .stats-info p {
+    float: right;
+}
+
+.widget-stats-small .stats-link {
+    float: right;
+}
+
+.widget-stats-small:last-of-type {
+    margin-bottom: 20px !important;
+}
+
+.widget-stats > .stats-info >p {
+    display: inline;
+}
+
+.widget-stats > .stats-info > .percentage {
+    font-size: 24px;
+    font-weight: 300;
+    margin-bottom: 0;
+    margin-left: 10px;
+}

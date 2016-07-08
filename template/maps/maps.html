@@ -89,7 +89,10 @@ function handleGoogleMap() {
 			markers.push(the_marker);
 			the_marker.setMap(map);
 		}
-		mc = new MarkerClusterer(map, markers);
+        var options = {
+            imagePath: '/assets/markerclusterer/images/m'
+        };
+		mc = new MarkerClusterer(map, markers, options);
 	}
 	
 	$(window).resize(function() {

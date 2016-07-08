@@ -27,7 +27,7 @@
                             "uom": "kWh"
                         },
                         "status": {
-                            "value": "&nbsp;",
+                            "value": "",
                             "formula": "0.10 * x",
                             "decimals": 2,
                             "uom": "EUR",
@@ -66,7 +66,7 @@
                             "uom": "kWh"
                         },
                         "status": {
-                            "value": "&nbsp;",
+                            "value": "",
                             "formula": "0.10 * x",
                             "decimals": 2,
                             "uom": "EUR",
@@ -97,7 +97,13 @@
                             {
                                 "sensorId": "Office1-Light",
                                 "aggregate": "raw",
-                                "window": "raw"
+                                "window": "raw",
+                                "line": {
+                                    "value": 500,
+                                    "color": "red",
+                                    "width": 2,
+                                    "title": "Minimal illuminance for the office"
+                                }
                             },
                         ]
                     }

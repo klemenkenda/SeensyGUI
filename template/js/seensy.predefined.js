@@ -73,7 +73,7 @@ function SystemNodes() {
         $.ajax({
             url: '/api/get-nodes',
             success: this.loadedNodes,            
-			error: function (x, y, z) {alert(y);},
+			error: function (x, y, z) {console.log(y);},
             complete: callback
         });
     }
@@ -178,19 +178,38 @@ function PredefinedVisualization(systemNodes) {
     };
     
     this.addNewInfobox = function(columnid, title, color, icon, value, status, link, infoBoxConfig) {
-        this.infoBoxNumber = this.infoBoxes.length + 1;
-        $("#" +  columnid).append(
-            '<div class="widget widget-stats bg-' + color + '" id="widget-' + this.infoBoxNumber + '">' +
-                '<div class="stats-icon"><i class="' + icon + '"></i></div>' +
-                '<div class="stats-info">' +
-                    '<h4>' + title + '</h4>' +
-                    '<p>' + value + '</p>' +
-                '</div>' +
-                '<div class="stats-link">' +
-                    '<a href="' +  link + '">' + status + "</a>" +
-                '</div>' +
-            '</div>'
-        );
+        this.infoBoxNumber = this.infoBoxes.length + 1;        
+        
+        if (infoBoxConfig.style == "small") {
+            
+            $("#" +  columnid).append(
+                '<div class="widget widget-stats widget-stats-small bg-' + color + '" id="widget-' + this.infoBoxNumber + '">' +                    
+                    '<div class="stats-info">' +
+                        '<h4>' + title + '</h4>' +                        
+                        '<div class="stats-link">' +
+                            '<a href="' +  link + '">' + status + "</a>" +
+                            '<span class="percentage"></span>' +
+                        '</div>' +
+                        '<p>' + value + '</p>' +                    
+                    '</div>' +
+                '</div>'
+            );
+        } else {        
+            $("#" +  columnid).append(
+                '<div class="widget widget-stats bg-' + color + '" id="widget-' + this.infoBoxNumber + '">' +
+                    '<div class="stats-icon"><i class="' + icon + '"></i></div>' +
+                    '<div class="stats-info">' +
+                        '<h4>' + title + '</h4>' +
+                        '<p>' + value + '</p>' +
+                        '<span class="percentage"></span>' +
+                    '</div>' +
+                    '<div class="stats-link">' +
+                        '<a href="' +  link + '">' + status + "</a>" +
+                    '</div>' +
+                '</div>'
+            );
+        };
+        
         this.infoBoxes[this.infoBoxNumber - 1] = new InfoBox("widget-" + this.infoBoxNumber, this.systemNodes, infoBoxConfig);
     };
     
@@ -233,7 +252,9 @@ function PredefinedVisualization(systemNodes) {
                         // load time series
                         $.each(chart["series"], function(seriesid, series) {
                             console.log(series);
-                            pv.charts[pv.chartNumber - 1].addSeries(series["sensorId"], startDate.toYMD(), endDate.toYMD(), series["aggregate"], series["window"]);
+                            var lineConf = null;
+                            if (series.line != "") lineConf = series.line;                            
+                            pv.charts[pv.chartNumber - 1].addSeries(series["sensorId"], startDate.toYMD(), endDate.toYMD(), series["aggregate"], series["window"], lineConf);
                         });
                     });
                 }
@@ -326,6 +347,7 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
     this.systemNodes = systemNodes;
     this.config = infoBoxConfig;
     this.series = [];
+    this.seriesN = [];
     this.containerId = containerId;
     
     ib = this;
@@ -411,7 +433,7 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
             url: myUrl,
             success: ib.loadedSeries,
             context: contextThis,
-			error: function (x, y, z) {alert(y);}
+			error: function (x, y, z) {console.log(y);}
         });
     };
     
@@ -422,7 +444,12 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
         data = JSON.parse(data);
         this.series[this.series.length] = data;
         
-        // TODO: vrstni red seriesov je pomemben - včasih se prej naloada drugi, kakor prvi (!)
+        // TODO: vrstni red seriesov je pomemben - včasih se prej naloada drugi, kakor prvi (!)                
+        // find out series #
+        for (var i = 0; i < this.config.value.series.length; i++) {
+            if (this.config.value.series[i].sensorId == this.dataType) 
+                this.seriesN[this.series.length - 1] = i;
+        }
         
         // is all the data loaded?
         if (this.series.length == this.config.value.series.length) {
@@ -447,16 +474,63 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
                                         
                     $("#" + containerId + " > .stats-info p").html(bestValue);
                     break;
+                case "sumMembers":
+                    this.hookSum(containerId);
+                    break;
+                case "sumMembersPercent":
+                    this.hookPercent(containerId, this.config.value.denominator);
+                    this.hookSum(containerId);                    
+                    break;
+                case "cumulativeThreshold":                    
+                    var pTsOld = 0;
+                    var threshold = this.config.value.threshold;                    
+                    var cumulative = 0.0;
+                                                            
+                    // follow master series
+                    $.each(this.series[0], function(sid, point) {
+                        pTs = new Date(point.Timestamp);
+                        if (pTsOld != 0) {                            
+                            var interval = (pTs - pTsOld) / 1000 / 60 / 60;
+                            var value = point.Val;
+                            
+                            if (value > threshold) {
+                                cumulative += interval * value;                                                        
+                            }
+                        }
+                        pTsOld = pTs;
+                    });
+                    ctValue = this.transform(cumulative, this.systemNodes.sensorTable[this.config["value"]["series"][0]["sensorId"]]["UoM"], this.config.value);
+                    $("#" + containerId + " > .stats-info p").html(ctValue);
+                    
+                    // manage status
+                    if (this.config.status.value == "") {
+                        statusValue = this.transform(cumulative, "", this.config.status);
+                        $("#" + containerId + " .stats-link a").html(statusValue);
+                    }                   
+                    break;
                 case "cumulativeThresholdSec":                    
                     var pTsOld = 0;
                     var threshold = this.config.value.threshold;                    
                     var cumulative = 0.0;
+                    
                     var secondaryIndex = 0; // index in secondary timeseries
                     
+                    // set indexes of primary and secondary timeseries
+                    // secondary seriesN = 0, primary seriesN = 1
+                    // default
+                    var secondaryN = 0;                    
+                    var primaryN = 1; // index in primary timeseries
+                    
+                    // reverse load
+                    if (this.seriesN[0] == 1) {
+                        secondaryN = 1;
+                        primaryN = 0;
+                    }
+                    
                     // secondary series
-                    var secondary = this.series[0];
+                    var secondary = this.series[secondaryN];
                     // follow master series
-                    $.each(this.series[1], function(sid, point) {
+                    $.each(this.series[primaryN], function(sid, point) {
                         pTs = new Date(point.Timestamp);
                         if (pTsOld != 0) {
                             var interval = (pTs - pTsOld) / 1000 / 60 / 60;
@@ -487,7 +561,7 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
                     // manage status
                     if (this.config.status.value == "") {
                         statusValue = this.transform(cumulative, "", this.config.status);
-                        $("#" + containerId + " > .stats-link a").html(statusValue);
+                        $("#" + containerId + " .stats-link a").html(statusValue);
                     }                   
                     break;
                 case "cumulativeThresholdOther":                    
@@ -511,7 +585,7 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
                     // manage status
                     if (this.config.status.value == "") {
                         statusValue = this.transform(cumulative, "", this.config.status);
-                        $("#" + containerId + " > .stats-link a").html(statusValue);
+                        $("#" + containerId + " .stats-link a").html(statusValue);
                     }                    
                     break;
                 case "cumulativeThresholdOtherSec":                    
@@ -521,10 +595,22 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
                     var cumulative = 0.0;
                     var secondaryIndex = 0; // index in secondary timeseries
                     
+                    // set indexes of primary and secondary timeseries
+                    // secondary seriesN = 0, primary seriesN = 1
+                    // default
+                    var secondaryN = 0;                    
+                    var primaryN = 1; // index in primary timeseries
+                    
+                    // reverse load
+                    if (this.seriesN[0] == 1) {
+                        secondaryN = 1;
+                        primaryN = 0;
+                    }
+                    
                     // secondary series
-                    var secondary = this.series[0];
+                    var secondary = this.series[secondaryN];
                     // follow master series
-                    $.each(this.series[1], function(sid, point) {
+                    $.each(this.series[primaryN], function(sid, point) {
                         pTs = new Date(point.Timestamp);
                         if (pTsOld != 0) {
                             var interval = (pTs - pTsOld) / 1000 / 60 / 60;
@@ -555,7 +641,7 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
                     // manage status
                     if (this.config.status.value == "") {
                         statusValue = this.transform(cumulative, "", this.config.status);
-                        $("#" + containerId + " > .stats-link a").html(statusValue);
+                        $("#" + containerId + " .stats-link a").html(statusValue);
                     }                    
                     break;
                 default: console.log("No method for extracting infobox value!");
@@ -563,6 +649,68 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
             
         };
     }
+    
+    
+    
+    this.hookSum = function(cId) {        
+        var _this = this;
+        setTimeout(function() { _this.computeSum(); }, 200);
+        console.log("SUM TIMEOUT: " + cId);
+    }
+    
+    this.computeSum = function() {        
+        // console.log("YES: " + containerId);
+        var sum = 0;
+        $("#" + containerId).parent().find(".widget-stats-small").each(function () {            
+            var valText = $(this).find("p")[0].innerHTML;
+            var val = parseFloat(valText);
+            sum += val;
+        });
+        
+        sumValue = this.transform(sum, this.systemNodes.sensorTable[this.config["value"]["series"][0]["sensorId"]]["UoM"], this.config.value);
+        
+        $("#" + containerId + " > .stats-info p").html(sumValue);
+                    
+        // manage status
+        if (this.config.status.value == "") {
+            statusValue = this.transform(sum, "", this.config.status);
+            $("#" + containerId + " .stats-link a").html(statusValue);
+        }         
+        
+        // manage pecentages
+        $("#" + containerId).parent().find(".widget-stats-small").each(function () {            
+            var valText = $(this).find("p")[0].innerHTML;
+            var val = parseFloat(valText);
+            var percentage = Math.round(val / sum * 10000) / 100 + "%";
+            $(this).find(".stats-link .percentage")[0].innerHTML = percentage;
+        });
+        
+        // setTimeout(this.computeSum(cId), 1000);
+        var _this = this;
+        setTimeout(function() { _this.computeSum(); }, 1000);
+    }
+    
+  
+    this.hookPercent = function(cId, denominator) {
+        this.denominator = denominator;
+        var _thisP = this;
+        setTimeout(function() { _thisP.computePercent(denominator); }, 200);  
+        console.log("PERCENT TIMEOUT: " + cId);
+    }
+    
+    this.computePercent = function(denominator) {                
+        var _this = this;
+        var dValue = parseFloat($(denominator).html());
+        var myValue = parseFloat($("#" + containerId + " > .stats-info p").html());
+        
+        var percent = Math.round(myValue/dValue * 10000)/100;
+        $("#" + containerId + " > .stats-info > .percentage").html("(" + percent + "%)")
+        
+        setTimeout(function() { _this.computePercent(denominator); }, 1000);
+    }
+        
+  
+    
     
 }
 
@@ -622,12 +770,12 @@ function HighChartProfile(container, chartNumber, systemNodes) {
                     },
                     threshold: null
                 }
-            },
+            }
         });
     }
     
     this.chart = this.newChart(container);
-    this.chart.yAxis[0].remove();
+    // this.chart.yAxis[0].remove();
     
     this.addSeries = function (dataType, dateStart, dateEnd, aggregateType, timeInterval) {
         // collecting data from form
@@ -716,7 +864,7 @@ function HighChartProfile(container, chartNumber, systemNodes) {
             url: myUrl,
             success: function (data1) { this.loadedAggregates(data1, this.dataType, this.aggregateType, this.timeInterval) },
             context: contextThis,
-			error: function (x, y, z) {alert(y);}
+			error: function (x, y, z) {console.log(y);}
         });
     };
     
@@ -914,7 +1062,7 @@ function HighChart(container, chartNumber, systemNodes) {
                     },
                     threshold: null
                 }
-            },
+            }
         });
     }
     
@@ -966,14 +1114,15 @@ function HighChart(container, chartNumber, systemNodes) {
     };
     
     
-    this.addSeries = function (dataType, dateStart, dateEnd, aggregateType, timeInterval) {
-        // collecting data from form
+    this.addSeries = function (dataType, dateStart, dateEnd, aggregateType, timeInterval, lineConf) {
+        // collecting data from form        
         $('#loadingChart' + this.chartNumber).text('Adding new series ...');
         this.dataType = dataType;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.aggregateType = aggregateType;
-        this.timeInterval = timeInterval;        
+        this.timeInterval = timeInterval;  
+        this.lineConf = lineConf;
         
         if (this.timeInterval == "raw") {
             if (dateDiff(this.dateStart.split("-"), this.dateEnd.split("-")) > 500) {
@@ -1053,12 +1202,11 @@ function HighChart(container, chartNumber, systemNodes) {
             url: myUrl,
             success: function (data1) { this.loadedAggregates(data1, this.dataType, this.aggregateType, this.timeInterval) },
             context: contextThis,
-			error: function (x, y, z) {alert(y);}
+			error: function (x, y, z) {console.log(y);}
         });
     };
     
-    this.loadedAggregates = function (data1, dataType, aggregateType, timeInterval) {
-        
+    this.loadedAggregates = function (data1, dataType, aggregateType, timeInterval) {        
         //extracting info about data
 		data1 = JSON.parse(data1);
 		if (!(typeof data1[0] == 'undefined') && typeof data1[0]["Val"] == 'undefined') {
@@ -1156,14 +1304,33 @@ function HighChart(container, chartNumber, systemNodes) {
             if (axisData.length != 0) {
                 addedNumber = axisData.length;
             }
-            this.chart.addAxis({
+            var axisConf = {
                 id: datayUnit + addedNumber,
                 title: {
                     text: datayUnit + addedNumber
-                },
+                },                
                 min: newMin,
                 max: newMax
-            });
+            };
+                        
+            if (this.lineConf !== undefined) {
+                var plotLines = [{
+                    value: this.lineConf.value,
+                    color: this.lineConf.color,
+                    width: this.lineConf.width,
+                    label: {
+                        text: this.lineConf.title,
+                        align: 'center',
+                        style: {
+                            color: 'gray'
+                        }
+                    }
+                }];
+            }
+            
+            axisConf.plotLines = plotLines;
+            
+            this.chart.addAxis(axisConf);
         }
         else {
             if (i - 1 != 0) {
@@ -1176,7 +1343,7 @@ function HighChart(container, chartNumber, systemNodes) {
             type: 'line',
             data: data1,
             name: dataType + "(" + timeInterval + "-" + aggregateType + ")" + ": " + datayDescription + " - " + datayUnit + addedNumber,
-            yAxis: datayUnit + addedNumber
+            yAxis: datayUnit + addedNumber,
         });
         if (axisIndex != -1) {
             this.chart.options.yAxis[axisIndex].min = Math.min(newMin, this.chart.options.yAxis[axisIndex].min);
@@ -1185,7 +1352,7 @@ function HighChart(container, chartNumber, systemNodes) {
             this.chart.yAxis[axisIndex].max = Math.max(newMax, this.chart.options.yAxis[axisIndex].max);
             this.chart.yAxis[axisIndex].options.startOnTick = true;
             this.chart.yAxis[axisIndex].options.endOnTick = true;
-            this.chart.yAxis[axisIndex].setExtremes(this.chart.options.yAxis[axisIndex].min, this.chart.options.yAxis[axisIndex].max);
+            this.chart.yAxis[axisIndex].setExtremes(this.chart.options.yAxis[axisIndex].min, this.chart.options.yAxis[axisIndex].max);            
         }
         
         this.chart.redraw();

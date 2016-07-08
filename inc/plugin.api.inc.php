@@ -507,7 +507,9 @@ function pluginAPIGET() {
 		// GET MEASUEREMENTS AND AGGREGATES
 		case "get-measurements": 
 			if ($pars == 3) { 
-				$HTML = getMeasurements($par[0], $par[1], $par[2]);				
+				// $HTML = apiError("Wrong parameter count!");
+                // $HTML = '{ "x": 1 }';
+                $HTML = getMeasurements($par[0], $par[1], $par[2]);				
 			} else {
 				$HTML = apiError("Wrong parameter count!");
 			}
