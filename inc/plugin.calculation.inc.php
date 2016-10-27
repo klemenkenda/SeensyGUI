@@ -1,0 +1,8 @@
+<?PHP
+
+
+function pluginLightingCalculation() {
+    
+}
+
+?>

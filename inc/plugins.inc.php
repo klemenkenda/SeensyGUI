@@ -351,4 +351,5 @@ include("plugin.pilot.inc.php");
 include("plugin.maps.inc.php");
 include("plugin.user.inc.php");
 include("plugin.predefined.inc.php");
+include("plugin.calculation.inc.php");
 ?>

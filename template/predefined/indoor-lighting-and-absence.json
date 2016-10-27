@@ -17,13 +17,13 @@
                             "endDate": "now",
                             "series": [
                                 {
-                                    "sensorId": "Office1-Light",
+                                    "sensorId": "Corridor1-Light",
                                     "aggregate": "raw", 
                                     "window": "raw"
                                 }
                             ],
                             "threshold": 500,
-                            "value": 0.288,
+                            "value": 0.144,
                             "uom": "kWh"
                         },
                         "status": {
@@ -51,18 +51,18 @@
                             "decimals": 2,
                             "series": [
                                 {
-                                    "sensorId": "Office1-Occupancy-Tripped",
+                                    "sensorId": "Corridor1-Occupancy-Tripped",
                                     "aggregate": "raw", 
                                     "window": "raw"
                                 },
                                 {
-                                    "sensorId": "Office1-Light",
+                                    "sensorId": "Corridor1-Light",
                                     "aggregate": "raw", 
                                     "window": "raw"
                                 }
                             ],
                             "threshold": 500,
-                            "value": 0.288,
+                            "value": 0.144,
                             "uom": "kWh"
                         },
                         "status": {
@@ -85,24 +85,24 @@
                 "class": "col-md-12",
                 "charts": [
                     {
-                        "title": "Office 1 - lighting vs. absence",
+                        "title": "Corridor 1 - lighting vs. absence",
                         "endDate": "now",
                         "timeSpan": "30",
                         "series": [
                             {
-                                "sensorId": "Office1-Occupancy-Tripped",
+                                "sensorId": "Corridor1-Occupancy-Tripped",
                                 "aggregate": "raw",
                                 "window": "raw"
                             },
                             {
-                                "sensorId": "Office1-Light",
+                                "sensorId": "Corridor1-Light",
                                 "aggregate": "raw",
                                 "window": "raw",
                                 "line": {
-                                    "value": 500,
+                                    "value": 350,
                                     "color": "red",
                                     "width": 2,
-                                    "title": "Minimal illuminance for the office"
+                                    "title": "Minimal lighting for the corridor"
                                 }
                             },
                         ]

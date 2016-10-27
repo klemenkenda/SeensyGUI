@@ -110,20 +110,65 @@ function getURLPost ($url, $fields, $raw = 1) {
 // function: addJSON
 // Description: Data adapter for data from standard JSON
 //---------------------------------------------------------------------
+// **************************** DEPRECATED ****************************
+// use addJSONClean instead
+// ********************************************************************
+
 function addJSON($log = TRUE) {
 	global $data;
 	global $miner;
 	
 	$JSON = $data;
 	
-	// debug - create a QMiner garbage collector flush
-	$url = $miner["url"] . ":" . $miner["port"] . "/gs_gc";	
-	$HTML = getURL($url);	
-	
 	// create request to EnStreaM
 	$url = $miner["url"] . ":" . $miner["port"] . "/data/add-measurement?data=" . urlencode($JSON);
 	// $HTML = passthruHTTP($url);
 	$HTML = getURL($url);
+	
+	if ($log) {
+		// add request to the log file
+		date_default_timezone_set('UTC');
+		$logname = "log-" . date("Ymd") . ".txt";
+		$fp = fopen("logs/" . $logname, "a+");
+		fwrite($fp, $data . "\n");
+		fclose($fp);
+	}
+	
+	// save to disk
+	// sleep(1);
+	return $HTML;	
+}
+
+//---------------------------------------------------------------------
+// function: addJSONClean
+// Description: Data adapter for data from standard JSON with
+//   data cleaning component involvment.
+//---------------------------------------------------------------------
+
+function isJSON($s) {
+    json_decode($s);
+    return (json_last_error() == JSON_ERROR_NONE);
+}
+
+function addJSONClean($log = TRUE) {
+	global $data;
+	global $miner;
+    global $cleaning;
+	
+	$JSON = $data;
+	
+    // create request to Data Cleaning
+    $url = $cleaning["url"] . ":" . $cleaning["port"] . "/cleaning/add-measurement?data=" . urlencode($JSON);	
+	$cleanJSON = getURL($url);
+    $cleanJSON = str_replace("null", "", $cleanJSON);
+    
+    if (isJSON($cleanJSON)) {
+    
+        // create request to EnStreaM
+        $url = $miner["url"] . ":" . $miner["port"] . "/data/add-measurement?data=" . urlencode($cleanJSON);
+        // $HTML = passthruHTTP($url);
+        $HTML = getURL($url);
+    }
 	
 	if ($log) {
 		// add request to the log file
@@ -580,15 +625,19 @@ function pluginAPIGET() {
 			
 		// ADDING DATA
 		case "add-json":
-		      $HTML = addJSON();
+		      $HTML = addJSONClean();
 		      break;
 		case "add-json-no-log":
-		      $HTML = addJSON(FALSE);
+		      $HTML = addJSONClean(FALSE);
 		      break;
 		case "add-json-update":
 		      $HTML = addJSONUpdate();
-		      break;
-	  	
+		      break;            
+        case "add-json-clean":
+              // testing
+              $HTML = addJSONClean();
+	  	      break;
+            
 		// EXPORTING DATA			
 		case "export-all-measurements":
 		  if ($pars == 1) {
