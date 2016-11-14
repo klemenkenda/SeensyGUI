@@ -27,9 +27,15 @@ $filesystem_root = "D:\\Seensy\\www\\";
 
 // miner config -------------------------------------------------------
 $miner["url"] = "http://127.0.0.1";
-$miner["port"] = 9202;
+$miner["port"] = 9201;
 $miner["stream_timeout"] = 20;
 $miner["socket_timeout"] = 10;
+
+// miner config -------------------------------------------------------
+$cleaning["url"] = "http://127.0.0.1";
+$cleaning["port"] = 9214;
+$cleaning["stream_timeout"] = 20;
+$cleaning["socket_timeout"] = 10;
 
 // data cleaning config
 $cleaning["url"] = "http://127.0.0.1";
