@@ -1,27 +1,28 @@
-[    
+[
      {
-        "title": "Row for info boxes",        
+        "title": "Row for info boxes",
         "columns": [
             {
                 "title": "Column 1",
                 "class": "col-md-6",
                 "infoboxes": [
                     {
-                        "title": "Usage of energy (30 days)",
+                        "title": "Usage of energy (since Oct 1)",
                         "color": "green",
-                        "icon": "fa fa-line-chart",                        
+                        "icon": "fa fa-line-chart",
                         "value": {
                             "decimals": 2,
-                            "type": "sumMembers",  
-                            "timeSpan": "30",    
+                            "type": "sumMembers",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "series": [
                                 {
                                     "sensorId": "Office1-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
-                            ],                            
+                            ],
                             "uom": "kWh"
                         },
                         "status": {
@@ -36,21 +37,22 @@
                         "title": "Office lighting",
                         "style": "small",
                         "color": "blue",
-                        "icon": "fa fa-line-chart",                           
+                        "icon": "fa fa-line-chart",
                         "value": {
                             "decimals": 2,
-                            "type": "cumulativeThresholdOther",                            
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOther",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "series": [
                                 {
                                     "sensorId": "Office1-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
                             "threshold": 500,
-                            "value": 0.288,
+                            "value": 0.576,
                             "uom": "kWh"
                         },
                         "status": {
@@ -65,21 +67,21 @@
                         "title": "Corridor 1 - lighting",
                         "color": "blue",
                         "style": "small",
-                        "icon": "fa fa-line-chart",                           
+                        "icon": "fa fa-line-chart",
                         "value": {
                             "decimals": 2,
-                            "type": "cumulativeThresholdOther",                            
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOther",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "series": [
                                 {
                                     "sensorId": "Corridor1-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
                             "threshold": 500,
-                            "value": 0.144,
+                            "value": 1.584,
                             "uom": "kWh"
                         },
                         "status": {
@@ -94,21 +96,22 @@
                         "title": "Corridor 2 - lighting",
                         "color": "blue",
                         "style": "small",
-                        "icon": "fa fa-line-chart",                           
+                        "icon": "fa fa-line-chart",
                         "value": {
                             "decimals": 2,
-                            "type": "cumulativeThresholdOther",                            
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOther",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "series": [
                                 {
                                     "sensorId": "Corridor2-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
                             "threshold": 500,
-                            "value": 0.144,
+                            "value": 0.2304,
                             "uom": "kWh"
                         },
                         "status": {
@@ -123,21 +126,22 @@
                         "title": "Corridor 3 - lighting",
                         "color": "blue",
                         "style": "small",
-                        "icon": "fa fa-line-chart",                           
+                        "icon": "fa fa-line-chart",
                         "value": {
                             "decimals": 2,
-                            "type": "cumulativeThresholdOther",                            
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOther",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "series": [
                                 {
                                     "sensorId": "Corridor3-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
-                            "threshold": 500,
-                            "value": 0.144,
+                            "threshold": 130,
+                            "value": 0.1728,
                             "uom": "kWh"
                         },
                         "status": {
@@ -152,21 +156,22 @@
                         "title": "Corridor 4 - lighting",
                         "color": "blue",
                         "style": "small",
-                        "icon": "fa fa-line-chart",                           
+                        "icon": "fa fa-line-chart",
                         "value": {
                             "decimals": 2,
-                            "type": "cumulativeThresholdOther",                            
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOther",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "series": [
                                 {
                                     "sensorId": "Corridor4-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
-                            "threshold": 500,
-                            "value": 0.144,
+                            "threshold": 40,
+                            "value": 0.1296,
                             "uom": "kWh"
                         },
                         "status": {
@@ -176,26 +181,27 @@
                             "uom": "EUR",
                             "link": "#"
                         }
-                    },                    
+                    },
                     {
                         "title": "Corridor 5 - lighting",
                         "color": "blue",
                         "style": "small",
-                        "icon": "fa fa-line-chart",                           
+                        "icon": "fa fa-line-chart",
                         "value": {
                             "decimals": 2,
-                            "type": "cumulativeThresholdOther",                            
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOther",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "series": [
                                 {
                                     "sensorId": "Corridor5-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
-                            "threshold": 500,
-                            "value": 0.144,
+                            "threshold": 160,
+                            "value": 0.054,
                             "uom": "kWh"
                         },
                         "status": {
@@ -205,26 +211,27 @@
                             "uom": "EUR",
                             "link": "#"
                         }
-                    },                    
+                    },
                     {
                         "title": "Stairs - lighting",
                         "color": "blue",
                         "style": "small",
-                        "icon": "fa fa-line-chart",                           
+                        "icon": "fa fa-line-chart",
                         "value": {
                             "decimals": 2,
-                            "type": "cumulativeThresholdOther",                            
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOther",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "series": [
                                 {
                                     "sensorId": "Stairs1-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
-                            "threshold": 500,
-                            "value": 0.144,
+                            "threshold": 150,
+                            "value": 0.054,
                             "uom": "kWh"
                         },
                         "status": {
@@ -234,26 +241,27 @@
                             "uom": "EUR",
                             "link": "#"
                         }
-                    },                    
+                    },
                     {
                         "title": "Meeting Room - lighting",
                         "color": "blue",
                         "style": "small",
-                        "icon": "fa fa-line-chart",                           
+                        "icon": "fa fa-line-chart",
                         "value": {
                             "decimals": 2,
-                            "type": "cumulativeThresholdOther",                            
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOther",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "series": [
                                 {
                                     "sensorId": "MeetingRoom1-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
                             "threshold": 500,
-                            "value": 0.144,
+                            "value": 1.152,
                             "uom": "kWh"
                         },
                         "status": {
@@ -263,79 +271,22 @@
                             "uom": "EUR",
                             "link": "#"
                         }
-                    },                    
+                    },
                     {
                         "title": "Kitchen - lighting",
                         "color": "blue",
                         "style": "small",
-                        "icon": "fa fa-line-chart",                           
+                        "icon": "fa fa-line-chart",
                         "value": {
                             "decimals": 2,
-                            "type": "cumulativeThresholdOther",                            
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOther",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "series": [
                                 {
                                     "sensorId": "Kitchen1-Light",
-                                    "aggregate": "raw", 
-                                    "window": "raw"
-                                }
-                            ],
-                            "threshold": 500,
-                            "value": 0.144,
-                            "uom": "kWh"
-                        },
-                        "status": {
-                            "value": "",
-                            "formula": "0.10 * x",
-                            "decimals": 2,
-                            "uom": "EUR",
-                            "link": "#"
-                        }
-                    },                    
-                    {
-                        "title": "Female Toilet - lighting",
-                        "color": "blue",
-                        "style": "small",
-                        "icon": "fa fa-line-chart",                           
-                        "value": {
-                            "decimals": 2,
-                            "type": "cumulativeThresholdOther",                            
-                            "timeSpan": "30",    
-                            "endDate": "now",
-                            "series": [
-                                {
-                                    "sensorId": "FemaleToilet1-Light",
-                                    "aggregate": "raw", 
-                                    "window": "raw"
-                                }
-                            ],
-                            "threshold": 500,
-                            "value": 0.144,
-                            "uom": "kWh"
-                        },
-                        "status": {
-                            "value": "",
-                            "formula": "0.10 * x",
-                            "decimals": 2,
-                            "uom": "EUR",
-                            "link": "#"
-                        }
-                    },                    
-                    {
-                        "title": "Male Toilet - lighting",
-                        "color": "blue",
-                        "style": "small",
-                        "icon": "fa fa-line-chart",                           
-                        "value": {
-                            "decimals": 2,
-                            "type": "cumulativeThresholdOther",                            
-                            "timeSpan": "30",    
-                            "endDate": "now",
-                            "series": [
-                                {
-                                    "sensorId": "MaleToilet1-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
@@ -351,53 +302,85 @@
                             "link": "#"
                         }
                     },
-                    {                       
+                    {
+                        "title": "Female Toilet - lighting",
+                        "color": "blue",
+                        "style": "small",
+                        "icon": "fa fa-line-chart",
+                        "value": {
+                            "decimals": 2,
+                            "type": "cumulativeThresholdOther",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
+                            "endDate": "now",
+                            "series": [
+                                {
+                                    "sensorId": "FemaleToilet1-Light",
+                                    "aggregate": "raw",
+                                    "window": "raw"
+                                }
+                            ],
+                            "threshold": 20,
+                            "value": 0.144,
+                            "uom": "kWh"
+                        },
+                        "status": {
+                            "value": "",
+                            "formula": "0.10 * x",
+                            "decimals": 2,
+                            "uom": "EUR",
+                            "link": "#"
+                        }
+                    },
+                    {
+                        "title": "Male Toilet - lighting",
+                        "color": "blue",
+                        "style": "small",
+                        "icon": "fa fa-line-chart",
+                        "value": {
+                            "decimals": 2,
+                            "type": "cumulativeThresholdOther",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
+                            "endDate": "now",
+                            "series": [
+                                {
+                                    "sensorId": "MaleToilet1-Light",
+                                    "aggregate": "raw",
+                                    "window": "raw"
+                                }
+                            ],
+                            "threshold": 20,
+                            "value": 0.360,
+                            "uom": "kWh"
+                        },
+                        "status": {
+                            "value": "",
+                            "formula": "0.10 * x",
+                            "decimals": 2,
+                            "uom": "EUR",
+                            "link": "#"
+                        }
+                    },
+                    {
                         "title": "Office - PC",
                         "color": "blue",
                         "style": "small",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "cumulativeThreshold",                  
-                            "timeSpan": "30",    
+                            "type": "cumulativeThreshold",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
                                     "sensorId": "Office1-Outlet1-PC-Watts",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
-                            "threshold": 1,    
-                            "formula": "0.001 * x",
-                            "uom": "kWh"
-                        },
-                        "status": {
-                            "value": "",
-                            "formula": "0.001 * 0.10 * x",
-                            "decimals": 2,
-                            "uom": "EUR",
-                            "link": "#"
-                        }
-                    },                    
-                    {                       
-                        "title": "Office - Monitor",
-                        "color": "blue",
-                        "style": "small",
-                        "icon": "fa fa-flask",
-                        "value": {
-                            "type": "cumulativeThreshold",                  
-                            "timeSpan": "30",    
-                            "endDate": "now",
-                            "decimals": 2,
-                            "series": [
-                                {
-                                    "sensorId": "Office1-Outlet2-Monitor-Watts",
-                                    "aggregate": "raw", 
-                                    "window": "raw"
-                                }
-                            ],
-                            "threshold": 1,                            
+                            "threshold": 1,
                             "formula": "0.001 * x",
                             "uom": "kWh"
                         },
@@ -409,24 +392,25 @@
                             "link": "#"
                         }
                     },
-                    {                       
-                        "title": "Meeting Room - PC",
+                    {
+                        "title": "Office - Monitor",
                         "color": "blue",
                         "style": "small",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "cumulativeThreshold",                  
-                            "timeSpan": "30",    
+                            "type": "cumulativeThreshold",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
-                                    "sensorId": "MeetingRoom1-Outlet1-PC-Watts",
-                                    "aggregate": "raw", 
+                                    "sensorId": "Office1-Outlet2-Monitor-Watts",
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
-                            "threshold": 1,    
+                            "threshold": 1,
                             "formula": "0.001 * x",
                             "uom": "kWh"
                         },
@@ -437,25 +421,56 @@
                             "uom": "EUR",
                             "link": "#"
                         }
-                    },                    
-                    {                       
+                    },
+                    {
+                        "title": "Meeting Room - PC",
+                        "color": "blue",
+                        "style": "small",
+                        "icon": "fa fa-flask",
+                        "value": {
+                            "type": "cumulativeThreshold",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
+                            "endDate": "now",
+                            "decimals": 2,
+                            "series": [
+                                {
+                                    "sensorId": "MeetingRoom1-Outlet1-PC-Watts",
+                                    "aggregate": "raw",
+                                    "window": "raw"
+                                }
+                            ],
+                            "threshold": 1,
+                            "formula": "0.001 * x",
+                            "uom": "kWh"
+                        },
+                        "status": {
+                            "value": "",
+                            "formula": "0.001 * 0.10 * x",
+                            "decimals": 2,
+                            "uom": "EUR",
+                            "link": "#"
+                        }
+                    },
+                    {
                         "title": "Meeting Room - Monitor",
                         "color": "blue",
                         "style": "small",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "cumulativeThreshold",                  
-                            "timeSpan": "30",    
+                            "type": "cumulativeThreshold",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
                                     "sensorId": "MeetingRoom1-Outlet2-Monitor-Watts",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
-                            "threshold": 1,                            
+                            "threshold": 1,
                             "formula": "0.001 * x",
                             "uom": "kWh"
                         },
@@ -467,31 +482,33 @@
                             "link": "#"
                         }
                     }
-                    
+
                 ]
             },
             {
                 "title": "Column 2",
                 "class": "col-md-6",
                 "infoboxes": [
-                    {                       
-                        "title": "Direct inefficiency (30 days)",
+                    {
+                        "title": "Direct inefficiency (since Oct 1)",
                         "color": "red",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "sumMembers",                  
-                            "timeSpan": "30",    
+                            "type": "sumMembersPercent",
+                            "denominator": "#widget-1 .stats-info p",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
                                     "sensorId": "Office1-Occupancy-Tripped",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 },
                                 {
                                     "sensorId": "Office1-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
@@ -506,31 +523,32 @@
                             "uom": "EUR",
                             "link": "#"
                         }
-                    }, 
-                    {                       
+                    },
+                    {
                         "title": "Office - lighting",
                         "color": "purple",
                         "style": "small",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "cumulativeThresholdOtherSec",                  
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOtherSec",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
                                     "sensorId": "Office1-Occupancy-Tripped",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 },
                                 {
                                     "sensorId": "Office1-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
                             "threshold": 500,
-                            "value": 0.288,
+                            "value": 0.576,
                             "uom": "kWh"
                         },
                         "status": {
@@ -540,31 +558,32 @@
                             "uom": "EUR",
                             "link": "#"
                         }
-                    },                     
-                    {                       
+                    },
+                    {
                         "title": "Corridor 1 - lighting",
                         "color": "purple",
                         "style": "small",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "cumulativeThresholdOtherSec",                  
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOtherSec",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
                                     "sensorId": "Corridor1-Occupancy-Tripped",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 },
                                 {
                                     "sensorId": "Corridor1-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
                             "threshold": 500,
-                            "value": 0.144,
+                            "value": 1.584,
                             "uom": "kWh"
                         },
                         "status": {
@@ -574,31 +593,32 @@
                             "uom": "EUR",
                             "link": "#"
                         }
-                    },                                         
-                    {                       
+                    },
+                    {
                         "title": "Corridor 2 - lighting",
                         "color": "purple",
                         "style": "small",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "cumulativeThresholdOtherSec",                  
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOtherSec",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
                                     "sensorId": "Corridor2-Occupancy-Tripped",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 },
                                 {
                                     "sensorId": "Corridor2-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
                             "threshold": 500,
-                            "value": 0.144,
+                            "value": 0.2304,
                             "uom": "kWh"
                         },
                         "status": {
@@ -608,31 +628,32 @@
                             "uom": "EUR",
                             "link": "#"
                         }
-                    },                     
-                    {                       
+                    },
+                    {
                         "title": "Corridor 3 - lighting",
                         "color": "purple",
                         "style": "small",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "cumulativeThresholdOtherSec",                  
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOtherSec",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
                                     "sensorId": "Corridor3-Occupancy-Tripped",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 },
                                 {
                                     "sensorId": "Corridor3-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
-                            "threshold": 500,
-                            "value": 0.144,
+                            "threshold": 130,
+                            "value": 0.1728,
                             "uom": "kWh"
                         },
                         "status": {
@@ -642,31 +663,32 @@
                             "uom": "EUR",
                             "link": "#"
                         }
-                    },                     
-                    {                       
+                    },
+                    {
                         "title": "Corridor 4 - lighting",
                         "color": "purple",
                         "style": "small",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "cumulativeThresholdOtherSec",                  
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOtherSec",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
                                     "sensorId": "Corridor4-Occupancy-Tripped",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 },
                                 {
                                     "sensorId": "Corridor4-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
-                            "threshold": 500,
-                            "value": 0.144,
+                            "threshold": 40,
+                            "value": 0.1296,
                             "uom": "kWh"
                         },
                         "status": {
@@ -676,31 +698,32 @@
                             "uom": "EUR",
                             "link": "#"
                         }
-                    },                     
-                    {                       
+                    },
+                    {
                         "title": "Corridor 5 - lighting",
                         "color": "purple",
                         "style": "small",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "cumulativeThresholdOtherSec",                  
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOtherSec",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
                                     "sensorId": "Corridor5-Occupancy-Tripped",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 },
                                 {
                                     "sensorId": "Corridor5-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
-                            "threshold": 500,
-                            "value": 0.144,
+                            "threshold": 160,
+                            "value": 0.054,
                             "uom": "kWh"
                         },
                         "status": {
@@ -710,31 +733,32 @@
                             "uom": "EUR",
                             "link": "#"
                         }
-                    },                                    
-                    {                       
+                    },
+                    {
                         "title": "Stairs - lighting",
                         "color": "purple",
                         "style": "small",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "cumulativeThresholdOtherSec",                  
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOtherSec",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
                                     "sensorId": "Stairs1-Occupancy-Tripped",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 },
                                 {
                                     "sensorId": "Stairs1-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
-                            "threshold": 500,
-                            "value": 0.144,
+                            "threshold": 150,
+                            "value": 0.054,
                             "uom": "kWh"
                         },
                         "status": {
@@ -744,31 +768,32 @@
                             "uom": "EUR",
                             "link": "#"
                         }
-                    },                     
-                    {                       
+                    },
+                    {
                         "title": "Meeting Room - lighting",
                         "color": "purple",
                         "style": "small",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "cumulativeThresholdOtherSec",                  
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOtherSec",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
                                     "sensorId": "MeetingRoom1-Occupancy-Tripped",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 },
                                 {
                                     "sensorId": "MeetingRoom1-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
                             "threshold": 500,
-                            "value": 0.144,
+                            "value": 1.152,
                             "uom": "kWh"
                         },
                         "status": {
@@ -778,26 +803,27 @@
                             "uom": "EUR",
                             "link": "#"
                         }
-                    },                     
-                    {                       
+                    },
+                    {
                         "title": "Kitchen - lighting",
                         "color": "purple",
                         "style": "small",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "cumulativeThresholdOtherSec",                  
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOtherSec",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
                                     "sensorId": "Kitchen1-Occupancy-Tripped",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 },
                                 {
                                     "sensorId": "Kitchen1-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
@@ -812,30 +838,31 @@
                             "uom": "EUR",
                             "link": "#"
                         }
-                    },                     
-                    {                       
+                    },
+                    {
                         "title": "Female Toilet - lighting",
                         "color": "purple",
                         "style": "small",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "cumulativeThresholdOtherSec",                  
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOtherSec",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
                                     "sensorId": "FemaleToilet1-Occupancy-Tripped",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 },
                                 {
                                     "sensorId": "FemaleToilet1-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
-                            "threshold": 500,
+                            "threshold": 20,
                             "value": 0.144,
                             "uom": "kWh"
                         },
@@ -846,31 +873,32 @@
                             "uom": "EUR",
                             "link": "#"
                         }
-                    },                     
-                    {                       
+                    },
+                    {
                         "title": "Male Toilet - lighting",
                         "color": "purple",
                         "style": "small",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "cumulativeThresholdOtherSec",                  
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdOtherSec",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
                                     "sensorId": "MaleToilet1-Occupancy-Tripped",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 },
                                 {
                                     "sensorId": "MaleToilet1-Light",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
-                            "threshold": 500,
-                            "value": 0.144,
+                            "threshold": 20,
+                            "value": 0.360,
                             "uom": "kWh"
                         },
                         "status": {
@@ -881,59 +909,26 @@
                             "link": "#"
                         }
                     },
-                    {                       
+                    {
                         "title": "Office - PC",
                         "color": "purple",
                         "style": "small",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "cumulativeThresholdSec",                  
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdSec",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
                                     "sensorId": "Office1-Occupancy-Tripped",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 },
                                 {
                                     "sensorId": "Office1-Outlet1-PC-Watts",
-                                    "aggregate": "raw", 
-                                    "window": "raw"
-                                }
-                            ],
-                            "threshold": 1,    
-                            "formula": "0.001 * x",
-                            "uom": "kWh"
-                        },
-                        "status": {
-                            "value": "",
-                            "formula": "0.001 * 0.10 * x",
-                            "decimals": 2,
-                            "uom": "EUR",
-                            "link": "#"
-                        }
-                    },
-                    {                       
-                        "title": "Office - Monitor",
-                        "color": "purple",
-                        "style": "small",
-                        "icon": "fa fa-flask",
-                        "value": {
-                            "type": "cumulativeThresholdSec",                  
-                            "timeSpan": "30",    
-                            "endDate": "now",
-                            "decimals": 2,
-                            "series": [
-                                {
-                                    "sensorId": "Office1-Occupancy-Tripped",
-                                    "aggregate": "raw", 
-                                    "window": "raw"
-                                },
-                                {
-                                    "sensorId": "Office1-Outlet2-Monitor-Watts",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
@@ -949,29 +944,30 @@
                             "link": "#"
                         }
                     },
-                    {                       
-                        "title": "Meeting Room - PC",
+                    {
+                        "title": "Office - Monitor",
                         "color": "purple",
                         "style": "small",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "cumulativeThresholdSec",                  
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdSec",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
-                                    "sensorId": "MeetingRoom1-Occupancy-Tripped",
-                                    "aggregate": "raw", 
+                                    "sensorId": "Office1-Occupancy-Tripped",
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 },
                                 {
-                                    "sensorId": "MeetingRoom1-Outlet1-PC-Watts",
-                                    "aggregate": "raw", 
+                                    "sensorId": "Office1-Outlet2-Monitor-Watts",
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
-                            "threshold": 1,    
+                            "threshold": 1,
                             "formula": "0.001 * x",
                             "uom": "kWh"
                         },
@@ -983,25 +979,61 @@
                             "link": "#"
                         }
                     },
-                    {                       
-                        "title": "Meeting Room - monitor",
+                    {
+                        "title": "Meeting Room - PC",
                         "color": "purple",
                         "style": "small",
                         "icon": "fa fa-flask",
                         "value": {
-                            "type": "cumulativeThresholdSec",                  
-                            "timeSpan": "30",    
+                            "type": "cumulativeThresholdSec",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
                             "endDate": "now",
                             "decimals": 2,
                             "series": [
                                 {
                                     "sensorId": "MeetingRoom1-Occupancy-Tripped",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
+                                    "window": "raw"
+                                },
+                                {
+                                    "sensorId": "MeetingRoom1-Outlet1-PC-Watts",
+                                    "aggregate": "raw",
+                                    "window": "raw"
+                                }
+                            ],
+                            "threshold": 1,
+                            "formula": "0.001 * x",
+                            "uom": "kWh"
+                        },
+                        "status": {
+                            "value": "",
+                            "formula": "0.001 * 0.10 * x",
+                            "decimals": 2,
+                            "uom": "EUR",
+                            "link": "#"
+                        }
+                    },
+                    {
+                        "title": "Meeting Room - monitor",
+                        "color": "purple",
+                        "style": "small",
+                        "icon": "fa fa-flask",
+                        "value": {
+                            "type": "cumulativeThresholdSec",
+                            "timeSpan": "30",
+                            "startDate": "2016-10-01",
+                            "endDate": "now",
+                            "decimals": 2,
+                            "series": [
+                                {
+                                    "sensorId": "MeetingRoom1-Occupancy-Tripped",
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 },
                                 {
                                     "sensorId": "MeetingRoom1-Outlet2-Monitor-Watts",
-                                    "aggregate": "raw", 
+                                    "aggregate": "raw",
                                     "window": "raw"
                                 }
                             ],
@@ -1017,7 +1049,7 @@
                             "link": "#"
                         }
                     }
-                    
+
                 ]
             }
         ]

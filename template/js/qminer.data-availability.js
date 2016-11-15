@@ -42,8 +42,8 @@ function AvailabilityChart() {
     this.nodes = [];
 
     this.draw = function() {
-    	calcHeight = 100;
-    	console.log(calcHeight);
+    	  calcHeight = 100;
+    	  console.log(calcHeight);
 
         var settingsOrig = {
 
@@ -90,58 +90,54 @@ function AvailabilityChart() {
             },
 
             series: []
-
         };
       	// fill x-axis
-    	// categories: ['Jan', 'Feb']
-    	sensors = [];
-    	myData = [];
-    	var settings = [];
-    	settings[0] = jQuery.extend(true, {}, settingsOrig);
-    	var n = 0;
-    	for (var i in this.nodes) {
+      	// categories: ['Jan', 'Feb']
+      	sensors = [];
+      	myData = [];
+      	var settings = [];
+      	settings[0] = jQuery.extend(true, {}, settingsOrig);
+      	var n = 0;
+      	for (var i in this.nodes) {
 
-	    sensorsNode = this.nodes[i].Sensors;
-	    for (var s in sensorsNode) {
-		sensors.push(sensorsNode[s].Name);
-		calcHeight += 20;
-		if (sensorsNode[s].StartDate != '0000-00-00')
-		    myData.push([toUTCDate(sensorsNode[s].StartDate), toUTCDate(sensorsNode[s].EndDate)]);
-		else
-		    myData.push([]);
-	    }
+      	    sensorsNode = this.nodes[i].Sensors;
+      	    for (var s in sensorsNode) {
+            		sensors.push(sensorsNode[s].Name);
+            		calcHeight += 20;
+            		if (sensorsNode[s].StartDate != '0000-00-00')
+            		    myData.push([toUTCDate(sensorsNode[s].StartDate), toUTCDate(sensorsNode[s].EndDate)]);
+            		else
+            		    myData.push([]);
+            	  }
 
 
-    	    if (((Number(i) + 1) % 300 == 0) || (i == this.nodes.length - 1)) {
-		// console.log(myData);
-		console.log(n);
-		settings[n].chart.height = calcHeight;
+          	    if (((Number(i) + 1) % 300 == 0) || (i == this.nodes.length - 1)) {
+            		// console.log(myData);
+            		console.log(n);
+            		settings[n].chart.height = calcHeight;
 
-		settings[n].xAxis = { opposite: true, categories: sensors };
+            		settings[n].xAxis = { opposite: true, categories: sensors };
 
-		data = {
-		    name: 'Availability',
-		    data: myData
-		}
-		settings[n].series.push(data);
+            		data = {
+            		    name: 'Availability',
+            		    data: myData
+            		}
+            		settings[n].series.push(data);
 
-		$('#container' + n).highcharts(settings[n]);
-		console.log("Done" + i);
-		console.log(settings);
-		// new one
-		sensors = [];
-		myData = [];
-		n = Number(n) + 1;
-		settings[n] = jQuery.extend(true, {}, settingsOrig);
-		calcHeight = 100;
+            		$('#container' + n).highcharts(settings[n]);
+            		console.log("Done" + i);
+            		console.log(settings);
+            		// new one
+            		sensors = [];
+            		myData = [];
+            		n = Number(n) + 1;
+            		settings[n] = jQuery.extend(true, {}, settingsOrig);
+            		calcHeight = 100;
 
-		$(".panel-body form").append('<div class="panel-body" id="container' + n + '">');
-
-	    }
+            		$(".panel-body form").append('<div class="panel-body" id="container' + n + '">');
+      	    }
         }
-
     }
-
     return this;
 }
 
