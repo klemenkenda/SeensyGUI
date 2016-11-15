@@ -252,10 +252,10 @@ function PredefinedVisualization(systemNodes) {
                         startDate.setDate(endDate.getDate() - chart["timeSpan"]);
 
                         // did we fix startDate?
-                        if (chart["startDate"] != "") {
-                            startDate = Date.createFromMysql(chart["startDate"]);
-                            alert(startDate);
-                        }
+                        // if ("startDate" in chart) {
+                        //    startDate = Date.createFromMysql(chart["startDate"]);
+                            // alert(startDate);
+                        // }
 
 
                         // load time series
@@ -340,7 +340,7 @@ function PredefinedVisualization(systemNodes) {
 
                             // did we fix startDate?
                             if ("startDate" in infobox["value"]) {
-                                startDate = Date.createFromMysql(infobox["value"]["startDate"]);                                
+                                startDate = Date.createFromMysql(infobox["value"]["startDate"]);
                             }
 
                             $.each(infobox["value"]["series"], function(isid, series) {
