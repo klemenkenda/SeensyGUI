@@ -177,7 +177,7 @@ function PredefinedVisualization(systemNodes) {
         // $('#ucontainer' + this.chartNumber).render();
     };
 
-    this.addNewInfobox = function(columnid, title, color, icon, value, status, link, infoBoxConfig) {
+    this.addNewInfobox = function(columnid, title, color, icon, value, status, link, secondaryTitle, infoBoxConfig) {
         this.infoBoxNumber = this.infoBoxes.length + 1;
 
         if (infoBoxConfig.style == "small") {
@@ -187,6 +187,27 @@ function PredefinedVisualization(systemNodes) {
                     '<div class="stats-info">' +
                         '<h4>' + title + '</h4>' +
                         '<div class="stats-link">' +
+                            '<a href="' +  link + '">' + status + "</a>" +
+                            '<span class="percentage"></span>' +
+                        '</div>' +
+                        '<p>' + value + '</p>' +
+                    '</div>' +
+                '</div>'
+            );
+        } else if (infoBoxConfig.style == "small2") {
+            $("#" +  columnid).append(
+                '<div class="widget widget-stats widget-stats-small bg-' + color + '" id="widget-' + this.infoBoxNumber + '">' +
+                    '<div class="stats-info stats-info1">' +
+                        '<h4>' + title + '</h4>' +
+                        '<div class="stats-link stats-link1">' +
+                            '<a href="' +  link + '">' + status + "</a>" +
+                            '<span class="percentage"></span>' +
+                        '</div>' +
+                        '<p>' + value + '</p>' +
+                    '</div>' +
+                    '<div class="stats-info stats-info2">' +
+                        '<h4>' + secondaryTitle + '</h4>' +
+                        '<div class="stats-link stats-link2">' +
                             '<a href="' +  link + '">' + status + "</a>" +
                             '<span class="percentage"></span>' +
                         '</div>' +
@@ -317,19 +338,25 @@ function PredefinedVisualization(systemNodes) {
                         status = infobox["status"].value;
                         link = infobox["status"].link;
                         value = "N/A";
+                        secondaryTitle = "";
 
+                        // validate secondary title
+                        if (infobox.style == "small2") {
+                            secondaryTitle = infobox.value.classes[1].name;
+                            console.log("SEC. TITLE: " + secondaryTitle);
+                        }
 
                         // can value be determined directly?
                         if (infobox["value"]["type"] == "lastValue") {
                             value = pv.systemNodes.sensorTable[infobox["value"]["sensorId"]]["Val"] + " " +
                                     pv.systemNodes.sensorTable[infobox["value"]["sensorId"]]["UoM"];
                             // adding new infoBox
-                            pv.addNewInfobox("col-" + rid + "-" + cid, title, color, icon, value, status, link, infobox);
+                            pv.addNewInfobox("col-" + rid + "-" + cid, title, color, icon, value, status, link, secondaryTitle, infobox);
                         }
                         // else we will need to load additional data
                         else {
                             // adding new infoBox
-                            pv.addNewInfobox("col-" + rid + "-" + cid, title, color, icon, value, status, link, infobox);
+                            pv.addNewInfobox("col-" + rid + "-" + cid, title, color, icon, value, status, link, secondaryTitle, infobox);
 
                             if (infobox["value"]["endDate"] == "now") var endDate = new Date();
                             // correct date for QMiner limits
@@ -378,7 +405,7 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
          *   decimals - number of decimal places (usitn toFixed(decimals))
          */
 
-        console.log(config);
+        // console.log(config);
 
         // transform value
         if (config["formula"]) {
@@ -489,13 +516,6 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
 
                     $("#" + containerId + " > .stats-info p").html(bestValue);
                     break;
-                case "sumMembers":
-                    this.hookSum(containerId);
-                    break;
-                case "sumMembersPercent":
-                    this.hookPercent(containerId, this.config.value.denominator);
-                    this.hookSum(containerId);
-                    break;
                 case "cumulativeThreshold":
                     var pTsOld = 0;
                     var threshold = this.config.value.threshold;
@@ -521,6 +541,45 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
                     if (this.config.status.value == "") {
                         statusValue = this.transform(cumulative, "", this.config.status);
                         $("#" + containerId + " .stats-link a").html(statusValue);
+                    }
+                    break;
+                case "timeCumulativeThreshold":
+                    var pTsOld = 0;
+                    var threshold = this.config.value.threshold;
+                    var cumulative = [0.0, 0.0];
+                    var ctValue = [];
+                    var statusValue = [];
+
+                    var _this = this;
+                    // follow master series
+                    $.each(this.series[0], function(sid, point) {
+                        pTs = new Date(point.Timestamp);
+                        if (pTsOld != 0) {
+                            var interval = (pTs - pTsOld) / 1000 / 60 / 60;
+                            var value = point.Val;
+
+                            if (value > threshold) {
+                                if ((pTs.getHours() >= _this.config.value.classes[0].params.startHour) &&
+                                    (pTs.getHours() <= _this.config.value.classes[0].params.endHour)) {
+                                    cumulative[0] += interval * value;
+                                } else {
+                                    cumulative[1] += interval * value;
+                                }
+                            }
+                        }
+                        pTsOld = pTs;
+                    });
+                    ctValue[0] = this.transform(cumulative[0], this.systemNodes.sensorTable[this.config["value"]["series"][0]["sensorId"]]["UoM"], this.config.value);
+                    ctValue[1] = this.transform(cumulative[1], this.systemNodes.sensorTable[this.config["value"]["series"][0]["sensorId"]]["UoM"], this.config.value);
+                    $("#" + containerId + " > .stats-info1 p").html(ctValue[0]);
+                    $("#" + containerId + " > .stats-info2 p").html(ctValue[1]);
+
+                    // manage status
+                    if (this.config.status.value == "") {
+                        statusValue[0] = this.transform(cumulative[0], "", this.config.status);
+                        statusValue[1] = this.transform(cumulative[1], "", this.config.status);
+                        $("#" + containerId + " .stats-link1 a").html(statusValue[0]);
+                        $("#" + containerId + " .stats-link2 a").html(statusValue[1]);
                     }
                     break;
                 case "cumulativeThresholdSec":
@@ -603,6 +662,46 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
                         $("#" + containerId + " .stats-link a").html(statusValue);
                     }
                     break;
+                case "timeCumulativeThresholdOther":
+                    var pTsOld = 0;
+                    var threshold = this.config.value.threshold;
+                    var mapValue = this.config.value.value;
+                    var cumulative = [0.0, 0.0];
+                    var ctValue = [];
+                    var statusValue = [];
+
+                    var _this = this;
+                    $.each(this.series[0], function(sid, point) {
+                        pTs = new Date(point.Timestamp);
+                        if (pTsOld != 0) {
+                            var interval = (pTs - pTsOld) / 1000 / 60 / 60;
+                            var value = point.Val;
+
+                            if (value > threshold) {
+                                if ((pTs.getHours() >= _this.config.value.classes[0].params.startHour) &&
+                                    (pTs.getHours() <= _this.config.value.classes[0].params.endHour)) {
+                                    cumulative[0] += interval * mapValue;
+                                } else {
+                                    cumulative[1] += interval * mapValue;
+                                }
+                            }
+                        }
+                        pTsOld = pTs;
+                    });
+                    ctValue[0] = this.transform(cumulative[0], this.systemNodes.sensorTable[this.config["value"]["series"][0]["sensorId"]]["UoM"], this.config.value);
+                    ctValue[1] = this.transform(cumulative[1], this.systemNodes.sensorTable[this.config["value"]["series"][0]["sensorId"]]["UoM"], this.config.value);
+                    console.log(ctValue);
+                    $("#" + containerId + " > .stats-info1 p").html(ctValue[0]);
+                    $("#" + containerId + " > .stats-info2 p").html(ctValue[1]);
+
+                    // manage status
+                    if (this.config.status.value == "") {
+                        statusValue[0] = this.transform(cumulative[0], "", this.config.status);
+                        statusValue[1] = this.transform(cumulative[1], "", this.config.status);
+                        $("#" + containerId + " .stats-link1 a").html(statusValue[0]);
+                        $("#" + containerId + " .stats-link2 a").html(statusValue[1]);
+                    }
+                    break;
                 case "cumulativeThresholdOtherSec":
                     var pTsOld = 0;
                     var threshold = this.config.value.threshold;
@@ -659,6 +758,13 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
                         $("#" + containerId + " .stats-link a").html(statusValue);
                     }
                     break;
+                case "sumMembers":
+                    this.hookSum(containerId);
+                    break;
+                case "sumMembersPercent":
+                    this.hookPercent(containerId, this.config.value.denominator);
+                    this.hookSum(containerId);
+                    break;
                 default: console.log("No method for extracting infobox value!");
             }
 
@@ -677,9 +783,13 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
         // console.log("YES: " + containerId);
         var sum = 0;
         $("#" + containerId).parent().find(".widget-stats-small").each(function () {
-            var valText = $(this).find("p")[0].innerHTML;
-            var val = parseFloat(valText);
-            sum += val;
+            var valText;
+            var container = $(this).find("p");
+            for (var i = 0; i < container.length; i++) {
+                valText = container[i].innerHTML;
+                var val = parseFloat(valText);
+                sum += val;
+            }
         });
 
         sumValue = this.transform(sum, this.systemNodes.sensorTable[this.config["value"]["series"][0]["sensorId"]]["UoM"], this.config.value);
@@ -694,10 +804,18 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
 
         // manage pecentages
         $("#" + containerId).parent().find(".widget-stats-small").each(function () {
-            var valText = $(this).find("p")[0].innerHTML;
-            var val = parseFloat(valText);
-            var percentage = Math.round(val / sum * 10000) / 100 + "%";
-            $(this).find(".stats-link .percentage")[0].innerHTML = percentage;
+            var valText = [];
+            var val = [];
+            var percentage = [];
+
+            var num = $(this).find(".stats-link .percentage").length;
+
+            for (var i = 0; i < num; i++) {
+                valText = $(this).find("p")[i].innerHTML;
+                var val = parseFloat(valText);
+                var percentage = Math.round(val / sum * 10000) / 100 + "%";
+                $(this).find(".stats-link .percentage")[i].innerHTML = percentage;
+            }
         });
 
         // setTimeout(this.computeSum(cId), 1000);
@@ -716,10 +834,15 @@ function InfoBox(containerId, systemNodes, infoBoxConfig) {
     this.computePercent = function(denominator) {
         var _this = this;
         var dValue = parseFloat($(denominator).html());
-        var myValue = parseFloat($("#" + containerId + " > .stats-info p").html());
+        var myValue = [0.0, 0.0];
+        myValue[0] = parseFloat($("#" + containerId + " > .stats-info1 p").html());
+        myValue[1] = parseFloat($("#" + containerId + " > .stats-info2 p").html());
 
-        var percent = Math.round(myValue/dValue * 10000)/100;
-        $("#" + containerId + " > .stats-info > .percentage").html("(" + percent + "%)")
+        var percent = [0.0, 0.0];
+        percent[0] = Math.round(myValue[0]/dValue * 10000)/100;
+        percent[1] = Math.round(myValue[1]/dValue * 10000)/100;
+        $("#" + containerId + " > .stats-info1 > .percentage").html("(" + percent[0] + "%)");
+        $("#" + containerId + " > .stats-info2 > .percentage").html("(" + percent[1] + "%)");
 
         setTimeout(function() { _this.computePercent(denominator); }, 1000);
     }
